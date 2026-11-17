@@ -26,6 +26,9 @@ Claude (Haiku 5.5) reads each clip's timestamped transcript and returns a cut, a
 - **Structure:** hook frame (0-1s, mid-action or peak reaction), stakes (1-3s), escalation, payoff before ~70% of the runtime, then at most ~1.5s of reaction so the clip loops. Most cuts are 8-25s.
 - **Hook box** (≤7 words) on screen from frame 0, clear of the TikTok/Shorts UI zones. Captions highlight each word as it's spoken; slurs are masked and swears softened.
 - **Compliance:** rejects gambling, music, watch parties, misleading framing and GTA 6 story spoilers; flags violence in the first 7s and radio music as risks in the app.
+- **Quality control loop:** every edit goes through hard checks (hook ≤7 words, banned phrases, payoff inside the cut and before the end, ≤2.5s tail, no dead-air open, title/caption length, streamer credit, ≤3 hashtags), then a stricter Claude critic (overpromising, sound-off test, spoilers). Failures go back to Claude to fix, up to 2 rounds; anything still failing is capped at 5/10 and its issues show as risks.
+- **Render verification:** every mp4 is checked for 1080x1920, the expected length, audible audio and no black opening before upload. A failed check marks the clip as an error so it's retried.
+- **Self-test:** `tests/selftest.py` runs before every worker run (offline, no API calls) and stops the run if any QC rule, caption mask or render check breaks.
 - The app shows the hook, payoff, risks and a TikTok caption, sorted best score first.
 - **Clip a specific moment:** Actions → Clipline worker → Run workflow → paste Twitch clip links. It also re-renders old clips.
 

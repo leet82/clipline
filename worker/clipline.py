@@ -276,8 +276,36 @@ def text_positions(layout, facecam, src, zoom=1.25):
     return cap_y, hook_y, None
 
 
+def verify_render(out, expect_len):
+    """Check the rendered file before it goes to the queue. Returns problems (empty = ok)."""
+    problems = []
+    j = json.loads(subprocess.run(
+        ["ffprobe", "-v", "error", "-show_entries", "stream=codec_type,width,height:format=duration",
+         "-of", "json", str(out)], check=True, capture_output=True, text=True).stdout)
+    v = [s for s in j["streams"] if s["codec_type"] == "video"]
+    a = [s for s in j["streams"] if s["codec_type"] == "audio"]
+    dur = float(j["format"]["duration"])
+    if not v or (v[0]["width"], v[0]["height"]) != (W, H):
+        problems.append(f"video is not {W}x{H}")
+    if abs(dur - expect_len) > 1.0:
+        problems.append(f"duration {dur:.1f}s, expected {expect_len:.1f}s")
+    if not a:
+        problems.append("no audio track")
+    else:
+        vol = subprocess.run(["ffmpeg", "-v", "info", "-i", str(out), "-af", "volumedetect", "-vn", "-f", "null", "-"],
+                             capture_output=True, text=True).stderr
+        m = re.search(r"mean_volume: (-?[\d.]+) dB", vol)
+        if m and float(m.group(1)) < -45:
+            problems.append(f"audio is near silent ({m.group(1)} dB)")
+    blk = subprocess.run(["ffmpeg", "-v", "info", "-t", "1.5", "-i", str(out), "-vf", "blackdetect=d=1:pix_th=0.10",
+                          "-an", "-f", "null", "-"], capture_output=True, text=True).stderr
+    if "black_start" in blk:
+        problems.append("opens on a black screen")
+    return problems
+
+
 def thumbnail(mp4, jpg):
-    run(["ffmpeg", "-y", "-loglevel", "error", "-ss", "1", "-i", str(mp4), "-frames:v", "1",
+    run(["ffmpeg", "-y", "-loglevel", "error", "-ss", "0.3", "-i", str(mp4), "-frames:v", "1",
          "-vf", "scale=360:-2", "-q:v", "4", str(jpg)])
 
 
@@ -351,34 +379,132 @@ def timed_transcript(words, max_words=10, max_gap=0.8):
     return "\n".join(f"[{c[0][0]:5.1f}s] " + " ".join(x[2] for x in c) for c in lines)
 
 
-def review(clip, words, duration, cfg, streamer):
-    """Claude picks the cut, hook and text, and runs the compliance check.
+def review(clip, words, duration, cfg, streamer, max_rounds=2):
+    """Claude picks the cut, hook and text; QC checks it and sends it back to fix.
 
+    Loop: edit -> deterministic checks -> critic -> (issues? revise, up to max_rounds).
     Returns None when no API key is set (clip goes through unedited). Raises on API
     failure so the clip is marked "error" and retried, never queued unscored.
     """
-    key = os.environ.get("ANTHROPIC_API_KEY")
-    if not key:
+    if not os.environ.get("ANTHROPIC_API_KEY"):
         return None
-    brief = streamer.get("brief") or "(none given)"
-    source = streamer.get("source", "permitted")
+    login = streamer["login"]
+    max_dur = cfg.get("max_duration", 45)
     meta = (
-        f"Streamer: {clip['broadcaster_name']} (login: {streamer['login']})\n"
-        f"Source type: {source}\nCampaign brief: {brief}\n"
+        f"Streamer: {clip['broadcaster_name']} (login: {login})\n"
+        f"Source type: {streamer.get('source', 'permitted')}\nCampaign brief: {streamer.get('brief') or '(none given)'}\n"
         f"Game: {clip.get('_game') or 'unknown'}\n"
         f"Twitch clip title: {clip['title']}\nViews: {clip['view_count']}\n"
-        f"Created: {clip['created_at']}\nDuration: {duration:.1f}s\n"
+        f"Created: {clip['created_at']}\nDuration: {duration:.1f}s (max cut {max_dur}s)\n"
         f"Required hashtags: {' '.join(cfg.get('hashtags', [])) or '(none)'}\n\n"
         f"Transcript (seconds from clip start):\n{timed_transcript(words) or '(no speech detected)'}"
     )
+    rv = claude(EDITOR_RULES, meta, REVIEW_SCHEMA)
+    if rv is None:
+        return {"decision": "reject", "reason": "model declined to review this clip", "score": 0, "qc": []}
+    issues = []
+    for rnd in range(max_rounds + 1):
+        if rv.get("decision") == "reject":
+            return {**rv, "qc": [], "qc_rounds": rnd}
+        issues = qc_issues(rv, words, duration, login, max_dur)
+        if not issues:
+            issues = critique(rv, words)
+        if not issues:
+            log(f"QC passed after {rnd} revision(s)")
+            return {**rv, "qc": [], "qc_rounds": rnd}
+        log(f"QC round {rnd}: {issues}")
+        if rnd == max_rounds:
+            break
+        fix = (meta + "\n\nYour previous edit:\n" + json.dumps(rv, ensure_ascii=False) +
+               "\n\nQuality control found these problems. Return a corrected edit that fixes all of them "
+               "(or reject the clip if it can't be fixed honestly):\n- " + "\n- ".join(issues))
+        rv = claude(EDITOR_RULES, fix, REVIEW_SCHEMA) or rv
+    # Still failing: keep it but cap the score so it can't look like a top pick.
+    return {**rv, "qc": issues, "qc_rounds": max_rounds, "score": min(rv.get("score") or 0, 5)}
+
+
+BANNED = ["wait for it", "you won't believe", "you wont believe", "insane", "bro", "pov:"]
+EMOJI = re.compile("[\U0001F300-\U0001FAFF☀-➿]")
+WORD = re.compile(r"[A-Za-z0-9'’]+")
+
+
+def qc_issues(rv, words, duration, login, max_dur):
+    """Deterministic checks on Claude's edit. Returns a list of problems (empty = pass)."""
+    if rv.get("decision") == "reject":
+        return []
+    out = []
+    hook, title, cap = rv.get("hook", ""), rv.get("title", ""), rv.get("caption", "")
+    if not hook.strip():
+        out.append("hook is empty")
+    if len(WORD.findall(hook)) > 7:
+        out.append(f"hook has {len(WORD.findall(hook))} words; max 7")
+    for b in BANNED:
+        for field, text in (("hook", hook), ("title", title), ("caption", cap)):
+            if re.search(r"(?<![a-z])" + re.escape(b) + r"(?![a-z])", text.lower()):
+                out.append(f'{field} uses banned phrase "{b}"')
+    if EMOJI.search(hook):
+        out.append("hook contains emoji")
+    if hook and hook.isupper() and len(hook) > 6:
+        out.append("hook is all caps")
+    if len(title) > 60:
+        out.append(f"title is {len(title)} chars; max 60")
+    if len(cap) > 120:
+        out.append(f"caption is {len(cap)} chars; max 120")
+    if f"@{login}".lower() not in cap.lower():
+        out.append(f'caption must credit "🎥 @{login}"')
+    if "#" in cap:
+        out.append("caption contains hashtags; put them in hashtags only")
+    if len(rv.get("hashtags", [])) > 3:
+        out.append("more than 3 hashtags")
+    try:
+        start, end, pay = float(rv["start_s"]), float(rv["end_s"]), float(rv["payoff_s"])
+    except (KeyError, TypeError, ValueError):
+        return out + ["start_s/end_s/payoff_s missing or not numbers"]
+    if not (0 <= start < end <= duration + 0.5):
+        out.append(f"cut {start}-{end}s is outside the clip (0-{duration:.1f}s)")
+    length = end - start
+    if length < 5:
+        out.append(f"cut is {length:.1f}s; minimum 5s")
+    if length > max_dur:
+        out.append(f"cut is {length:.1f}s; max {max_dur}s")
+    if not (start <= pay <= end):
+        out.append(f"payoff {pay}s is not inside the cut {start}-{end}s")
+    else:
+        if end - pay > 2.5:
+            out.append(f"{end - pay:.1f}s after the payoff; end within ~1.5s of the reaction")
+        if length >= 12 and (pay - start) / length > 0.85:
+            out.append("payoff lands in the last 15% of the cut; start later")
+    # Opening on dead air: the first speech should come quickly unless the clip has none.
+    in_cut = [w for w in words if start <= w[0] < end]
+    if words and in_cut and in_cut[0][0] - start > 2.5:
+        out.append(f"first speech is {in_cut[0][0] - start:.1f}s into the cut; start closer to the action")
+    return out
+
+
+CRITIC_RULES = """You are the quality-control reviewer for a gaming Shorts channel. You get a proposed edit (the cut's transcript, the on-screen hook, title and caption). Fail it if ANY of these hold:
+- The hook promises something the cut's transcript doesn't deliver (overpromise / misleading framing).
+- With sound off and zero context, the hook alone wouldn't make a stranger stop in 2 seconds (generic, vague, or needs knowledge of the streamer).
+- The hook, title or caption reveals GTA 6 story (missions, deaths, twists, endings).
+- The cut opens on setup instead of inside the moment, or the payoff is missing from the cut.
+- The streamer isn't credited, or text contains slurs.
+Be strict but concrete: each issue must say what to change."""
+
+CRITIC_SCHEMA = {
+    "type": "object", "additionalProperties": False, "required": ["pass", "issues"],
+    "properties": {"pass": {"type": "boolean"}, "issues": {"type": "array", "items": {"type": "string"}}},
+}
+
+
+def claude(system, content, schema, effort="medium"):
+    """One structured-output call with retries. Raises when every attempt fails."""
+    key = os.environ["ANTHROPIC_API_KEY"]
     body = {
         "model": os.environ.get("CLAUDE_MODEL", "claude-haiku-5-5"),
-        # Haiku 5.5 thinks by default and thinking counts toward max_tokens: the old
-        # 300-token cap sometimes left no room for the answer.
+        # Haiku 5.5 thinks by default and thinking counts toward max_tokens.
         "max_tokens": 8000,
-        "system": EDITOR_RULES,
-        "output_config": {"effort": "medium", "format": {"type": "json_schema", "schema": REVIEW_SCHEMA}},
-        "messages": [{"role": "user", "content": meta}],
+        "system": system,
+        "output_config": {"effort": effort, "format": {"type": "json_schema", "schema": schema}},
+        "messages": [{"role": "user", "content": content}],
     }
     last = None
     for attempt in range(3):
@@ -388,22 +514,34 @@ def review(clip, words, duration, cfg, streamer):
                 headers={"x-api-key": key, "anthropic-version": "2023-06-01", "content-type": "application/json"},
                 json=body, timeout=120,
             )
-            if r.status_code in (429, 500, 502, 503, 529):
-                raise RuntimeError(f"HTTP {r.status_code}")
             if r.status_code >= 400:
-                raise RuntimeError(f"HTTP {r.status_code}: {r.text[:300]}")
+                raise RuntimeError(f"HTTP {r.status_code}: {r.text[:200]}")
             j = r.json()
             if j.get("stop_reason") == "refusal":
-                return {"decision": "reject", "reason": "model declined to review this clip", "score": 0}
+                return None
             if j.get("stop_reason") == "max_tokens":
                 raise RuntimeError("hit max_tokens before answering")
-            text = "".join(b.get("text", "") for b in j["content"] if b.get("type") == "text")
-            return json.loads(text)
+            return json.loads("".join(b.get("text", "") for b in j["content"] if b.get("type") == "text"))
         except (RuntimeError, ValueError, requests.RequestException) as e:
             last = e
-            log(f"claude review attempt {attempt + 1} failed: {e}")
+            log(f"claude attempt {attempt + 1} failed: {e}")
             time.sleep(5 * (attempt + 1))
-    raise RuntimeError(f"claude review failed: {last}")
+    raise RuntimeError(f"claude call failed: {last}")
+
+
+def critique(rv, words):
+    start, end = float(rv["start_s"]), float(rv["end_s"])
+    cut = [(a - start, b - start, t) for a, b, t in words if start <= a < end]
+    content = (
+        f"Hook (on screen from 0s): {rv['hook']}\nTitle: {rv['title']}\nCaption: {rv['caption']}\n"
+        f"Payoff claimed at {float(rv['payoff_s']) - start:.1f}s into the cut: {rv.get('payoff', '')}\n"
+        f"Cut length: {end - start:.1f}s\nCut transcript (seconds from cut start):\n"
+        f"{timed_transcript(cut) or '(no speech in the cut)'}"
+    )
+    res = claude(CRITIC_RULES, content, CRITIC_SCHEMA, effort="low")
+    if res is None:
+        return ["critic declined to review"]
+    return [] if res.get("pass") else (res.get("issues") or ["critic failed it without detail"])
 
 
 def pick_cut(rv, duration, max_dur):
@@ -536,7 +674,9 @@ def main():
                         archetype=rv.get("archetype", ""), payoff=rv.get("payoff", ""),
                         title=rv.get("title") or c["title"], caption=rv.get("caption", ""),
                         hashtags=tags[:max(3, len(cfg.get("hashtags", [])))], risks=rv.get("risks", []),
-                        cut=[round(start, 1), round(end, 1)])
+                        cut=[round(start, 1), round(end, 1)], qc_rounds=rv.get("qc_rounds"))
+            if rv.get("qc"):
+                item["risks"] = item["risks"] + ["QC: " + q for q in rv["qc"]]
             if rv.get("decision") == "reject" and not c.get("_manual"):
                 item["status"] = "filtered"
                 log(f"rejected {c['id']}: {rv.get('reason')}")
@@ -554,6 +694,9 @@ def main():
                 safe = re.sub(r"[^A-Za-z0-9_-]", "", c["id"])[:80]
                 out, jpg = wd / f"{safe}.mp4", wd / f"{safe}.jpg"
                 render(src, "subs.ass", out, layout, cam, start, end - start, wd, zoom)
+                bad = verify_render(out, end - start)
+                if bad:
+                    raise RuntimeError("render check failed: " + "; ".join(bad))
                 thumbnail(out, jpg)
                 upload(out, jpg)
                 item.update(status="pending", video=out.name, thumb=jpg.name, stored=True, duration=round(end - start, 1))

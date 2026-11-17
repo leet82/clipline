@@ -35,7 +35,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-          cache: pip
+          cache: ${{ github.event_name != 'push' && 'pip' || '' }}   # push runs install nothing
           cache-dependency-path: worker/requirements.txt
 
       - name: Install ffmpeg + fonts
@@ -52,6 +52,10 @@ jobs:
         with:
           path: ~/.cache/huggingface
           key: whisper-base-v1
+
+      - name: Self-test (QC rules, captions, render checks; no API calls)
+        if: github.event_name != 'push'
+        run: python tests/selftest.py
 
       - name: Run worker
         if: github.event_name != 'push'
