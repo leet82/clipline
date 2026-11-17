@@ -43,82 +43,6 @@
   "status": "filtered"
  },
  {
-  "id": "ProductiveAlertCaribouCurseLit-QrK-TaLPIQfiuEXf",
-  "streamer": "KaiCenat",
-  "login": "kaicenat",
-  "game": "Grand Theft Auto IV",
-  "twitch_title": "leave kai alone!!!",
-  "views": 1231,
-  "created_at": "2026-11-10T01:19:22Z",
-  "duration": 5.4,
-  "source_url": "https://www.twitch.tv/kaicenat/clip/ProductiveAlertCaribouCurseLit-QrK-TaLPIQfiuEXf",
-  "added_at": "2026-11-17T21:21:19Z",
-  "stored": true,
-  "transcript": "I hate that. It's like I'm so tired. I'm so fucking tired of grown men trying to dump it under the world. Stop. That's not cool. Like just leave me alone. The fakeest niggas in the fucking world. Full gazing. I need it. I'm fucking talking on me, bro. That shit's annoying, bro. Words have everything I love, game.",
-  "score": 3,
-  "reason": "No clear payoff or context in a garbled rant, and it includes a slur ('niggas') in a hateful-adjacent moment, which fails compliance.",
-  "hook": "",
-  "archetype": "none",
-  "payoff": "Unclear: a heated rant about 'fakeest niggas' with no visible resolution or punchline in the transcript.",
-  "title": "leave kai alone!!!",
-  "caption": "",
-  "hashtags": [],
-  "risks": [
-   "REJECTED: No clear payoff or context in a garbled rant, and it includes a slur ('niggas') in a hateful-adjacent moment, which fails compliance.",
-   "SLUR: transcript contains a slur at 15.3s; hateful/slur-centred content rule applies",
-   "CONTEXT: rant is garbled and unclear without video; drama around 'leave kai alone' cannot be verified",
-   "NO PAYOFF: no clear punchline or reveal in transcript; score 5 or lower",
-   "Source type permitted but moment may depend on off-stream drama, which would need more than 5s of context"
-  ],
-  "cut": [
-   12.2,
-   17.6
-  ],
-  "status": "pending",
-  "video": "ProductiveAlertCaribouCurseLit-QrK-TaLPIQfiuEXf.mp4",
-  "thumb": "ProductiveAlertCaribouCurseLit-QrK-TaLPIQfiuEXf.jpg"
- },
- {
-  "id": "SuspiciousTentativeDotterelCmonBruh-kmqjdjojJmApH5CP",
-  "streamer": "KaiCenat",
-  "login": "kaicenat",
-  "game": "Grand Theft Auto V",
-  "twitch_title": "KAI CENAT FAILS EASY MISSION",
-  "views": 828,
-  "created_at": "2026-11-10T06:23:32Z",
-  "duration": 7.6,
-  "source_url": "https://www.twitch.tv/kaicenat/clip/SuspiciousTentativeDotterelCmonBruh-kmqjdjojJmApH5CP",
-  "added_at": "2026-11-17T21:21:37Z",
-  "stored": true,
-  "transcript": "I'm gonna be stuck under a cop car. They gotta be more dudes waiting around that way. We did not just get away with that shit Did we you know what I think we did? Oh, man. Oh, yeah, we did it, baby. We did it. Never never go on cheap on a gun man, Jack. I'm never doing cheap, bro. Ever. I'm never doing that shit All right people learn my lesson to split up. They're gonna be looking for a crew. Oh, why are your cuts when the rocks have been",
-  "score": 6,
-  "reason": "Clear escape-from-cops beat with a payoff at 14s and a readable hook; transcript is fragmentary and the title's 'fails' framing conflicts with the success payoff, so the cut is kept with a risk note.",
-  "hook": "Kai Cenat stuck under a cop car",
-  "archetype": "stakes-first",
-  "payoff": "After a near-caught escape from police, Kai shouts 'We did it, baby. We did it.'",
-  "title": "KaiCenat Narrowly Escapes Cops in GTA V",
-  "caption": "Kai Cenat stuck under a cop car, then somehow pulls off the escape. Did he earn that one? 🎥 @kaicenat",
-  "hashtags": [
-   "#GTAV",
-   "#KaiCenat",
-   "#GTA"
-  ],
-  "risks": [
-   "Transcript only; visuals unverified, so confirm the cop-car moment is on screen in the first seconds.",
-   "Title says 'fails' but the payoff is a successful escape; the hook and title were kept spoiler-free and accurate to the payoff, so check the clip doesn't contradict them.",
-   "MUSIC: mute/replace radio if licensed radio is audible.",
-   "VIOLENCE: check first 7s if gunfire or police takedowns are visible.",
-   "Profanity ('shit', 'bro') in audio; consider platform sensitivity settings."
-  ],
-  "cut": [
-   9.8,
-   17.4
-  ],
-  "status": "pending",
-  "video": "SuspiciousTentativeDotterelCmonBruh-kmqjdjojJmApH5CP.mp4",
-  "thumb": "SuspiciousTentativeDotterelCmonBruh-kmqjdjojJmApH5CP.jpg"
- },
- {
   "id": "SillyTubularOilYee-GTZ5PXa-rOA8pYoA",
   "streamer": "KaiCenat",
   "login": "kaicenat",
@@ -149,5 +73,82 @@
    30.0
   ],
   "status": "filtered"
+ },
+ {
+  "id": "ProductiveAlertCaribouCurseLit-QrK-TaLPIQfiuEXf",
+  "streamer": "KaiCenat",
+  "login": "kaicenat",
+  "game": "Grand Theft Auto IV",
+  "twitch_title": "leave kai alone!!!",
+  "views": 1231,
+  "created_at": "2026-11-10T01:19:22Z",
+  "duration": 30.0,
+  "source_url": "https://www.twitch.tv/kaicenat/clip/ProductiveAlertCaribouCurseLit-QrK-TaLPIQfiuEXf",
+  "added_at": "2026-11-17T21:25:27Z",
+  "stored": true,
+  "transcript": "I hate that. It's like I'm so tired. I'm so fucking tired of grown men trying to dump it under the world. Stop. That's not cool. Like just leave me alone. The fakeest niggas in the fucking world. Full gazing. I need it. Fucking talking on me, bro. That shit's annoying, bro. Words have everything I love, game.",
+  "score": 2,
+  "reason": "Rejected: contains a slur in the transcript (hateful content risk), no clear payoff, and it needs more context than the clip gives.",
+  "hook": "",
+  "archetype": "none",
+  "payoff": "No clear payoff; a rant about 'fake' people ending in an unclear line about 'full gazing' and 'words'.",
+  "title": "leave kai alone!!!",
+  "caption": "",
+  "hashtags": [],
+  "risks": [
+   "REJECTED: Rejected: contains a slur in the transcript (hateful content risk), no clear payoff, and it needs more context than the clip gives.",
+   "SLUR: transcript contains the n-word at 15.3s, so the clip is unsafe to post as-is",
+   "NO PAYOFF: incoherent rant with no clear beat",
+   "CONTEXT: needs more than 5s of setup to make sense",
+   "Judged from transcript only; visual content unknown"
+  ],
+  "cut": [
+   0.0,
+   30.0
+  ],
+  "qc_rounds": 0,
+  "status": "pending",
+  "video": "ProductiveAlertCaribouCurseLit-QrK-TaLPIQfiuEXf.mp4",
+  "thumb": "ProductiveAlertCaribouCurseLit-QrK-TaLPIQfiuEXf.jpg"
+ },
+ {
+  "id": "SuspiciousTentativeDotterelCmonBruh-kmqjdjojJmApH5CP",
+  "streamer": "KaiCenat",
+  "login": "kaicenat",
+  "game": "Grand Theft Auto V",
+  "twitch_title": "KAI CENAT FAILS EASY MISSION",
+  "views": 828,
+  "created_at": "2026-11-10T06:23:32Z",
+  "duration": 7.0,
+  "source_url": "https://www.twitch.tv/kaicenat/clip/SuspiciousTentativeDotterelCmonBruh-kmqjdjojJmApH5CP",
+  "added_at": "2026-11-17T21:26:23Z",
+  "stored": true,
+  "transcript": "I'm gonna be stuck under a cop car. They gotta be more do's waiting around that way. We did not just get away with that shit, did we? You know what? I think we did. Oh, man. Oh yeah, we did it, baby. We did it. Never, never go on cheap on a gun man, Jack. Jack, I'm never doing cheap, bro, ever. I'm never doing that shit. All right, people. Learn my lesson. They're gonna be looking for a crew. Oh, why are your cuts when the rocks have been s -",
+  "score": 4,
+  "reason": "Transcript shows an escape, not a clear fail, conflicting with the 'fails' title, and the cop-car setup needs more than 5s of context to land.",
+  "hook": "Kai Cenat escapes cops after getting stuck",
+  "archetype": "verbatim quote",
+  "payoff": "Kai yells 'we did it, baby' after apparently escaping the cops, though the moment is unclear without the video.",
+  "title": "Kai Cenat GTA 5 cop escape gone wrong",
+  "caption": "Did Kai really get away with this one? Tell me if you think the cops had a chance 👀 🎥 @kaicenat",
+  "hashtags": [
+   "#KaiCenat",
+   "#GTAV"
+  ],
+  "risks": [
+   "REJECTED: Transcript shows an escape, not a clear fail, conflicting with the 'fails' title, and the cop-car setup needs more than 5s of context to land.",
+   "Transcript only: the video may show a failed mission, which would contradict the escape and make the hook a lie.",
+   "Payoff is unclear and the moment depends on context from the cop-car setup.",
+   "Transcript is cut off mid-sentence at the end, so the full beat is unknown.",
+   "MUSIC: mute/replace radio if licensed radio is audible."
+  ],
+  "cut": [
+   8.9,
+   15.9
+  ],
+  "qc_rounds": 0,
+  "status": "pending",
+  "video": "SuspiciousTentativeDotterelCmonBruh-kmqjdjojJmApH5CP.mp4",
+  "thumb": "SuspiciousTentativeDotterelCmonBruh-kmqjdjojJmApH5CP.jpg"
  }
 ]
