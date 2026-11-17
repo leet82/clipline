@@ -3,7 +3,12 @@ name: Clipline worker
 on:
   schedule:
     - cron: "17 */4 * * *"   # every 4 hours
-  workflow_dispatch: {}      # "Run now" in the app, or Actions tab -> Run workflow
+  workflow_dispatch:        # "Run now" in the app, or Actions tab -> Run workflow
+    inputs:
+      clips:
+        description: "Optional Twitch clip links or IDs (space/comma separated) to clip or re-render now"
+        required: false
+        default: ""
   push:
     branches: [main]
     paths: ["site/**", "scripts/**"]   # app changes redeploy without running the worker
@@ -55,6 +60,7 @@ jobs:
           TWITCH_CLIENT_SECRET: ${{ secrets.TWITCH_CLIENT_SECRET }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           GH_TOKEN: ${{ github.token }}
+          CLIPLINE_CLIPS: ${{ inputs.clips }}
         run: python worker/clipline.py
 
       - name: Save queue

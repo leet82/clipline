@@ -11,6 +11,7 @@ import re
 import shutil
 import subprocess
 import sys
+import time
 
 import requests
 import yaml
@@ -91,6 +92,13 @@ class Twitch:
             first=50,
         )
 
+    def clips_by_id(self, ids):
+        return self.get("clips", id=ids[:100]) if ids else []
+
+    def game_names(self, ids):
+        ids = sorted({i for i in ids if i})
+        return {g["id"]: g["name"] for g in self.get("games", id=ids[:100])} if ids else {}
+
 
 # ---------------------------------------------------------------- media
 def probe(path):
@@ -141,6 +149,24 @@ def _ass_time(t):
     return f"{int(h)}:{int(m):02d}:{s:05.2f}"
 
 
+# Burned-in captions can't be edited after posting, so slurs are always masked and
+# common swears softened (platforms down-rank captions with heavy profanity).
+_MASK = [
+    (re.compile(r"\bn+i+g+(?:g+)?(?:a+|e+r+|a+h+|a+z+|a+s+|e+r+s+)\b", re.I), "N****"),
+    (re.compile(r"\bf+a+g+(?:g+o+t+)?s?\b", re.I), "F**"),
+    (re.compile(r"\br+e+t+a+r+d+(?:e+d+|s+)?\b", re.I), "R*****"),
+    (re.compile(r"f+u+c+k", re.I), "F*CK"),
+    (re.compile(r"\bs+h+i+t", re.I), "SH*T"),
+    (re.compile(r"\bb+i+t+c+h", re.I), "B*TCH"),
+]
+
+
+def clean_word(w):
+    for rx, rep in _MASK:
+        w = rx.sub(rep, w)
+    return w.replace("{", "(").replace("}", ")").replace("\\", "")
+
+
 def chunk_words(words, max_words=3, max_gap=0.6):
     chunks, cur = [], []
     for w in words:
@@ -153,8 +179,14 @@ def chunk_words(words, max_words=3, max_gap=0.6):
     return chunks
 
 
-def build_ass(words, path, center_y):
-    """Big bold pop-in captions, 1-3 words at a time, centred at center_y."""
+HIGHLIGHT = "&H0000E5FF&"  # ASS is BGR: bright yellow for the word being spoken
+
+
+def build_ass(words, path, cap_y, hook="", hook_y=330, offset=0.0, length=None, hook_secs=None):
+    """Word-by-word highlighted captions (3-word chunks, pop-in) + a hook box from frame 0.
+
+    words are in source time; offset shifts them to the trimmed clip's timeline.
+    """
     header = f"""[Script Info]
 ScriptType: v4.00+
 PlayResX: {W}
@@ -163,26 +195,39 @@ WrapStyle: 0
 
 [V4+ Styles]
 Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
-Style: Cap,DejaVu Sans,86,&H00FFFFFF,&H00FFFFFF,&H00000000,&H64000000,-1,0,0,0,100,100,0,0,1,7,3,5,60,60,0,1
+Style: Cap,DejaVu Sans,84,&H00FFFFFF,&H00FFFFFF,&H00000000,&H64000000,-1,0,0,0,100,100,0,0,1,7,3,5,70,70,0,1
+Style: Hook,DejaVu Sans,62,&H00101010,&H00101010,&H00FFFFFF,&H00FFFFFF,-1,0,0,0,100,100,0,0,3,16,0,5,110,110,0,1
 
 [Events]
 Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
 """
     lines = []
-    chunks = chunk_words(words)
+    if hook:
+        end = hook_secs if hook_secs else (length or 600)
+        lines.append(f"Dialogue: 1,{_ass_time(0)},{_ass_time(end)},Hook,,0,0,0,,"
+                     r"{\pos(%d,%d)\fad(0,250)}" % (W // 2, hook_y) + clean_word(hook))
+    shifted = [(a - offset, b - offset, t) for a, b, t in words if b - offset > 0 and (length is None or a - offset < length)]
+    chunks = chunk_words(shifted)
     for i, c in enumerate(chunks):
-        start = c[0][0]
-        end = c[-1][1] + 0.15
+        c_end = c[-1][1] + 0.15
         if i + 1 < len(chunks):
-            end = min(end, chunks[i + 1][0][0])
-        text = " ".join(w[2] for w in c).upper()
-        text = text.replace("{", "(").replace("}", ")").replace("\\", "")
-        pop = r"{\pos(%d,%d)\fscx85\fscy85\t(0,90,\fscx100\fscy100)}" % (W // 2, center_y)
-        lines.append(f"Dialogue: 0,{_ass_time(start)},{_ass_time(end)},Cap,,0,0,0,,{pop}{text}")
+            c_end = min(c_end, chunks[i + 1][0][0])
+        texts = [clean_word(w[2]).upper() for w in c]
+        # One event per spoken word: whole chunk visible, the current word in yellow.
+        for j, w in enumerate(c):
+            w_start = c[0][0] if j == 0 else w[0]
+            w_end = c[j + 1][0] if j + 1 < len(c) else c_end
+            if w_end <= w_start:
+                continue
+            body = " ".join(
+                (r"{\c%s}%s{\c&H00FFFFFF&}" % (HIGHLIGHT, t)) if k == j else t for k, t in enumerate(texts)
+            )
+            pop = r"{\pos(%d,%d)" % (W // 2, cap_y) + (r"\fscx85\fscy85\t(0,90,\fscx100\fscy100)" if j == 0 else "") + "}"
+            lines.append(f"Dialogue: 0,{_ass_time(w_start)},{_ass_time(w_end)},Cap,,0,0,0,,{pop}{body}")
     path.write_text(header + "\n".join(lines) + "\n")
 
 
-def render(src, ass_name, out, layout, facecam, max_dur, cwd):
+def render(src, ass_name, out, layout, facecam, start, length, cwd, zoom=1.25):
     sw, sh, _ = probe(src)
     if layout == "stack" and facecam:
         x, y, fw, fh = facecam
@@ -197,28 +242,38 @@ def render(src, ass_name, out, layout, facecam, max_dur, cwd):
             f"[cam][game]vstack,setsar=1,ass={ass_name}[v]"
         )
     else:
+        # Gameplay scaled up by `zoom` and centre-cropped to full width: a bigger subject
+        # on a phone screen holds attention better than a thin letterboxed strip.
+        fg_w = int(W * zoom) // 2 * 2
         graph = (
             f"[0:v]split[a][b];"
             f"[a]scale={W}:{H}:force_original_aspect_ratio=increase,crop={W}:{H},"
-            f"boxblur=24:2,eq=brightness=-0.10[bg];"
-            f"[b]scale={W}:-2[fg];"
+            f"boxblur=24:2,eq=brightness=-0.12[bg];"
+            f"[b]scale={fg_w}:-2,crop={W}:ih[fg];"
             f"[bg][fg]overlay=(W-w)/2:(H-h)/2,setsar=1,ass={ass_name}[v]"
         )
     run(
-        ["ffmpeg", "-y", "-loglevel", "error", "-i", str(src), "-filter_complex", graph,
-         "-map", "[v]", "-map", "0:a?", "-t", str(max_dur), "-r", "30",
-         "-c:v", "libx264", "-preset", "veryfast", "-crf", "21", "-pix_fmt", "yuv420p",
-         "-c:a", "aac", "-b:a", "128k", "-movflags", "+faststart", str(out)],
+        ["ffmpeg", "-y", "-loglevel", "error", "-ss", f"{start:.2f}", "-i", str(src), "-t", f"{length:.2f}",
+         "-filter_complex", graph, "-map", "[v]", "-map", "0:a?", "-r", "30",
+         "-c:v", "libx264", "-preset", "veryfast", "-crf", "20", "-pix_fmt", "yuv420p",
+         "-c:a", "aac", "-b:a", "128k", "-af", "loudnorm=I=-14:TP=-1.5:LRA=11",
+         "-movflags", "+faststart", str(out)],
         cwd=cwd,
     )
 
 
-def caption_center_y(layout, facecam, src):
+# Text placement respects the platform UI: TikTok/Shorts cover roughly the top 200px
+# and the bottom ~480px (caption, buttons), plus a strip on the right.
+def text_positions(layout, facecam, src, zoom=1.25):
+    """Returns (caption_y, hook_y, hook_secs). hook_secs=None means the hook stays up."""
     if layout == "stack" and facecam:
-        return 640 + 150  # just below the facecam seam
+        return H - 560, 640, 3.5  # captions low on gameplay, hook on the seam for the first beats
     sw, sh, _ = probe(src)
-    fg_h = int(W * sh / sw)
-    return min(H - 260, (H + fg_h) // 2 + 170)  # under the centred gameplay
+    fg_h = int(int(W * zoom) // 2 * 2 * sh / sw)
+    top_band = (H - fg_h) // 2
+    hook_y = max(260, top_band // 2 + 60)
+    cap_y = min(H - 500, (H + fg_h) // 2 + 150)
+    return cap_y, hook_y, None
 
 
 def thumbnail(mp4, jpg):
@@ -227,37 +282,142 @@ def thumbnail(mp4, jpg):
 
 
 # ---------------------------------------------------------------- Claude
-def review(clip, transcript, cfg):
-    """Ask Claude for a score + title. Falls back to the Twitch title."""
-    fallback = {"score": None, "title": clip["title"], "hashtags": cfg.get("hashtags", [])}
+EDITOR_RULES = """You are the hook editor and compliance check for a gaming clip channel (TikTok first, then YouTube Shorts) that posts Twitch streamer clips for paid clipping campaigns. You only see a timestamped transcript plus metadata, not the video, so judge the moment from what is said and say so in risks when unsure.
+
+COMPLIANCE (reject means decision="reject", one-line reason)
+- Reject: gambling/casino streams; the transcript looks like song lyrics or a music video (copyrighted music); watch parties or reacting to TV, sports, movies or another creator's video; anything that only works with misleading or out-of-context framing; hateful/slur-centred moments; nothing happens (idle chat, setup, loading, AFK).
+- If the streamer's campaign brief is given, follow it exactly; reject clips that break it.
+- GTA 6 (game "Grand Theft Auto VI"): reject story cutscenes, mission outcomes, character deaths or twists, endings. Free-roam, chaos, physics, discoveries, RP and first reactions are fine. Hook, title and caption must not reveal story. If the moment involves graphic violence (kills, gore), the cut must open on the reaction or the chaos around it and land the violent beat at 8s or later (YouTube's first-7-seconds rule); add a risk "VIOLENCE: check first 7s". If licensed radio music may be audible, add a risk "MUSIC: mute/replace radio".
+
+STRUCTURE (the beat pattern high-performing streamer Shorts share; build every cut to it)
+1. 0-1s HOOK FRAME: open mid-action or on the loudest reaction, never on calm. The hook text supplies any missing context.
+2. 1-3s STAKES: the viewer learns what could happen (chase, bet, first look, a dare) from the hook text or the first line.
+3. ESCALATION: each few seconds raises the tension or the absurdity; cut any stretch where nothing changes.
+4. PAYOFF: the single best second (crash, punchline, reveal, scream, fail) lands before 70% of the runtime when possible, so it isn't swiped away before it arrives.
+5. REACTION TAIL: keep at most ~1.5s of the streamer's reaction after the payoff, then cut hard. Ending on a sharp reaction makes the loop feel seamless and drives rewatches.
+Durations: 8-25s is the sweet spot for one-beat moments; up to 45s only for a story with several escalating beats. Shorter beats longer when in doubt.
+
+FINDING THE CUT
+- start_s: 1-3s before the payoff build starts, INSIDE the moment. Never open on setup, loading screens, menus, silent driving or a slow lead-in.
+- end_s: at most ~1.5s after the payoff/reaction lands.
+- If the clip needs more than 5s of context to make sense, or there is no clear payoff, score it 5 or lower.
+
+HOOK (on-screen text box shown from frame 0, max 7 words)
+- First frame, first spoken line and on-screen text must agree. Sound-off test: the text alone must stop a stranger's scroll in 2 seconds.
+- Tease, never lie. If the clip can't pay off the hook, write a different hook.
+- Specific beats generic: name the streamer, game, place (Vice City, Leonida), stakes, or exact words said. State stakes for non-players in 5 words or fewer.
+- Banned: "wait for it", "you won't believe", "insane", "bro", "POV:" when it isn't one, emojis, all caps.
+- Pick the best archetype for the moment: reaction-first, mid-action, verbatim quote, named callout, stakes-first, prediction, cold weirdness, identity ("Every GTA 5 player will feel this"), first-ever, then-vs-now (GTA 5 -> 6).
+
+SCORE 1-10: would a stranger who doesn't know the streamer watch to the end and rewatch? 8+ = clear payoff, fast start, works sound-off. 5 or less = needs context, slow, or nothing happens.
+
+TEXT
+- title: YouTube title, <=60 chars, includes streamer and game, spoiler-free, no clickbait lies.
+- caption: TikTok caption, <=120 chars: the hook idea + a soft prompt that invites comments (a question or a take) + "🎥 @<streamer login>". Do not put hashtags in caption.
+- hashtags: 3 max, specific (game, streamer), plus any the brief requires."""
+
+REVIEW_SCHEMA = {
+    "type": "object",
+    "additionalProperties": False,
+    "required": ["decision", "reason", "score", "payoff_s", "payoff", "start_s", "end_s",
+                 "hook", "archetype", "title", "caption", "hashtags", "risks"],
+    "properties": {
+        "decision": {"type": "string", "enum": ["keep", "reject"]},
+        "reason": {"type": "string", "description": "one line: why keep or reject"},
+        "score": {"type": "integer"},
+        "payoff_s": {"type": "number"},
+        "payoff": {"type": "string", "description": "what happens at the payoff"},
+        "start_s": {"type": "number"},
+        "end_s": {"type": "number"},
+        "hook": {"type": "string"},
+        "archetype": {"type": "string"},
+        "title": {"type": "string"},
+        "caption": {"type": "string"},
+        "hashtags": {"type": "array", "items": {"type": "string"}},
+        "risks": {"type": "array", "items": {"type": "string"}},
+    },
+}
+
+
+def timed_transcript(words, max_words=10, max_gap=0.8):
+    lines, cur = [], []
+    for w in words:
+        if cur and (len(cur) >= max_words or w[0] - cur[-1][1] > max_gap):
+            lines.append(cur)
+            cur = []
+        cur.append(w)
+    if cur:
+        lines.append(cur)
+    return "\n".join(f"[{c[0][0]:5.1f}s] " + " ".join(x[2] for x in c) for c in lines)
+
+
+def review(clip, words, duration, cfg, streamer):
+    """Claude picks the cut, hook and text, and runs the compliance check.
+
+    Returns None when no API key is set (clip goes through unedited). Raises on API
+    failure so the clip is marked "error" and retried, never queued unscored.
+    """
     key = os.environ.get("ANTHROPIC_API_KEY")
     if not key:
-        return fallback
-    prompt = (
-        "You pick Twitch clips for a YouTube Shorts / TikTok clip channel.\n"
-        f"Streamer: {clip['broadcaster_name']}\nTwitch clip title: {clip['title']}\n"
-        f"Views: {clip['view_count']}\nDuration: {clip['duration']}s\n"
-        f"Transcript: {transcript or '(no speech)'}\n\n"
-        "Reply with JSON only: {\"score\": 1-10 (does this stand alone and hook in the first 2s "
-        "for someone who doesn't know the streamer?), \"title\": short punchy title under 60 chars, "
-        "no clickbait lies, \"hashtags\": 3-5 hashtags}"
+        return None
+    brief = streamer.get("brief") or "(none given)"
+    source = streamer.get("source", "permitted")
+    meta = (
+        f"Streamer: {clip['broadcaster_name']} (login: {streamer['login']})\n"
+        f"Source type: {source}\nCampaign brief: {brief}\n"
+        f"Game: {clip.get('_game') or 'unknown'}\n"
+        f"Twitch clip title: {clip['title']}\nViews: {clip['view_count']}\n"
+        f"Created: {clip['created_at']}\nDuration: {duration:.1f}s\n"
+        f"Required hashtags: {' '.join(cfg.get('hashtags', [])) or '(none)'}\n\n"
+        f"Transcript (seconds from clip start):\n{timed_transcript(words) or '(no speech detected)'}"
     )
+    body = {
+        "model": os.environ.get("CLAUDE_MODEL", "claude-haiku-5-5"),
+        # Haiku 5.5 thinks by default and thinking counts toward max_tokens: the old
+        # 300-token cap sometimes left no room for the answer.
+        "max_tokens": 8000,
+        "system": EDITOR_RULES,
+        "output_config": {"effort": "medium", "format": {"type": "json_schema", "schema": REVIEW_SCHEMA}},
+        "messages": [{"role": "user", "content": meta}],
+    }
+    last = None
+    for attempt in range(3):
+        try:
+            r = requests.post(
+                "https://api.anthropic.com/v1/messages",
+                headers={"x-api-key": key, "anthropic-version": "2023-06-01", "content-type": "application/json"},
+                json=body, timeout=120,
+            )
+            if r.status_code in (429, 500, 502, 503, 529):
+                raise RuntimeError(f"HTTP {r.status_code}")
+            if r.status_code >= 400:
+                raise RuntimeError(f"HTTP {r.status_code}: {r.text[:300]}")
+            j = r.json()
+            if j.get("stop_reason") == "refusal":
+                return {"decision": "reject", "reason": "model declined to review this clip", "score": 0}
+            if j.get("stop_reason") == "max_tokens":
+                raise RuntimeError("hit max_tokens before answering")
+            text = "".join(b.get("text", "") for b in j["content"] if b.get("type") == "text")
+            return json.loads(text)
+        except (RuntimeError, ValueError, requests.RequestException) as e:
+            last = e
+            log(f"claude review attempt {attempt + 1} failed: {e}")
+            time.sleep(5 * (attempt + 1))
+    raise RuntimeError(f"claude review failed: {last}")
+
+
+def pick_cut(rv, duration, max_dur):
+    """Sanity-check Claude's cut; fall back to the whole clip if it's nonsense."""
     try:
-        r = requests.post(
-            "https://api.anthropic.com/v1/messages",
-            headers={"x-api-key": key, "anthropic-version": "2023-06-01", "content-type": "application/json"},
-            json={"model": os.environ.get("CLAUDE_MODEL", "claude-haiku-5-5"), "max_tokens": 300,
-                  "messages": [{"role": "user", "content": prompt}]},
-            timeout=60,
-        )
-        r.raise_for_status()
-        text = "".join(b.get("text", "") for b in r.json()["content"])
-        j = json.loads(re.search(r"\{.*\}", text, re.S).group(0))
-        return {"score": int(j.get("score", 0)), "title": str(j.get("title") or clip["title"])[:90],
-                "hashtags": [str(h) for h in j.get("hashtags", [])][:5] or fallback["hashtags"]}
-    except Exception as e:  # noqa: BLE001
-        log("claude review failed:", e)
-        return fallback
+        start = max(0.0, float(rv["start_s"]) - 0.2)
+        end = min(duration, float(rv["end_s"]) + 0.4)
+    except (KeyError, TypeError, ValueError):
+        return 0.0, min(duration, max_dur)
+    if end - start < 5:
+        start, end = max(0.0, end - 5), max(end, min(duration, start + 5))
+    if end <= start:
+        return 0.0, min(duration, max_dur)
+    return start, min(end, start + max_dur)
 
 
 # ---------------------------------------------------------------- storage
@@ -318,54 +478,93 @@ def main():
     for login in streamers:
         if login not in ids:
             log(f"WARNING: Twitch user '{login}' not found")
+    games_filter = {g.lower() for g in cfg.get("games") or []}
 
+    # Clip links pasted into "Run workflow" (CLIPLINE_CLIPS) are processed even if seen
+    # before, which also re-renders a clip with the current settings.
+    manual_ids = re.findall(r"(?:clip/|clips\.twitch\.tv/)?([A-Za-z0-9_-]{20,})", os.environ.get("CLIPLINE_CLIPS", ""))
     candidates = []
+    for c in tw.clips_by_id(manual_ids):
+        c["_login"] = c["broadcaster_name"].lower()
+        c["_manual"] = True
+        candidates.append(c)
     for login, bid in ids.items():
         for c in tw.top_clips(bid, cfg.get("lookback_hours", 48)):
             if c["id"] not in seen and c["view_count"] >= cfg.get("min_views", 0):
                 c["_login"] = login
                 candidates.append(c)
-    candidates.sort(key=lambda c: c["view_count"], reverse=True)
+    names = tw.game_names([c.get("game_id") for c in candidates])
+    for c in candidates:
+        c["_game"] = names.get(c.get("game_id"), "")
+    if games_filter:
+        candidates = [c for c in candidates if c.get("_manual") or c["_game"].lower() in games_filter]
+    # Manual clips first, then highest views per minute since clipped (fresh + hot beats old + big).
+    def heat(c):
+        age_min = max(10.0, (now() - dt.datetime.fromisoformat(c["created_at"].replace("Z", "+00:00"))).total_seconds() / 60)
+        return (not c.get("_manual"), -c["view_count"] / age_min)
+    candidates.sort(key=heat)
     log(f"{len(candidates)} new candidate clips")
 
     added = 0
     for c in candidates:
-        if added >= cfg.get("max_new_per_run", 6):
+        if added >= cfg.get("max_new_per_run", 6) and not c.get("_manual"):
             break
-        s = streamers[c["_login"]]
+        s = streamers.get(c["_login"], {"login": c["_login"], "layout": "blur"})
         wd = WORK / c["id"]
         shutil.rmtree(wd, ignore_errors=True)
         wd.mkdir(parents=True)
-        item = {"id": c["id"], "streamer": c["broadcaster_name"], "twitch_title": c["title"],
-                "views": c["view_count"], "created_at": c["created_at"], "duration": c["duration"],
-                "source_url": c["url"], "added_at": iso(now()), "stored": False}
+        item = {"id": c["id"], "streamer": c["broadcaster_name"], "login": c["_login"], "game": c["_game"],
+                "twitch_title": c["title"], "views": c["view_count"], "created_at": c["created_at"],
+                "duration": c["duration"], "source_url": c["url"], "added_at": iso(now()), "stored": False}
         try:
             src = wd / "src.mp4"
             run(["yt-dlp", "-q", "--no-warnings", "-f", "best[ext=mp4]/best", "-o", str(src), c["url"]])
             words = transcribe(src)
+            _, _, src_dur = probe(src)
+            rv = review(c, words, src_dur, cfg, s)
             transcript = " ".join(w[2] for w in words)
-            rv = review(c, transcript, cfg)
-            item.update(title=rv["title"], hashtags=rv["hashtags"], score=rv["score"], transcript=transcript[:500])
-            if rv["score"] is not None and rv["score"] < cfg.get("min_score", 0):
-                item["status"] = "filtered"
-                log(f"filtered {c['id']} score={rv['score']}")
+            item["transcript"] = transcript[:500]
+            max_dur = cfg.get("max_duration", 60)
+            if rv is None:  # no API key: whole clip, Twitch title
+                rv = {"decision": "keep", "score": None, "hook": "", "title": c["title"],
+                      "hashtags": cfg.get("hashtags", []), "caption": "", "risks": []}
+                start, end = 0.0, min(src_dur, max_dur)
             else:
+                start, end = pick_cut(rv, src_dur, max_dur)
+            tags = list(dict.fromkeys(cfg.get("hashtags", []) + [h if h.startswith("#") else "#" + h for h in rv.get("hashtags", [])]))
+            item.update(score=rv.get("score"), reason=rv.get("reason", ""), hook=rv.get("hook", ""),
+                        archetype=rv.get("archetype", ""), payoff=rv.get("payoff", ""),
+                        title=rv.get("title") or c["title"], caption=rv.get("caption", ""),
+                        hashtags=tags[:max(3, len(cfg.get("hashtags", [])))], risks=rv.get("risks", []),
+                        cut=[round(start, 1), round(end, 1)])
+            if rv.get("decision") == "reject" and not c.get("_manual"):
+                item["status"] = "filtered"
+                log(f"rejected {c['id']}: {rv.get('reason')}")
+            elif rv.get("score") is not None and rv["score"] < cfg.get("min_score", 0) and not c.get("_manual"):
+                item["status"] = "filtered"
+                log(f"filtered {c['id']} score={rv['score']}: {rv.get('reason')}")
+            else:
+                if rv.get("decision") == "reject":  # manual clips are rendered anyway, flagged
+                    item["risks"] = [f"REJECTED: {rv.get('reason')}"] + item["risks"]
                 layout, cam = s.get("layout", "blur"), s.get("facecam")
-                build_ass(words, wd / "subs.ass", caption_center_y(layout, cam, src))
+                zoom = float(s.get("zoom", cfg.get("zoom", 1.25)))
+                cap_y, hook_y, hook_secs = text_positions(layout, cam, src, zoom)
+                build_ass(words, wd / "subs.ass", cap_y, hook=item["hook"], hook_y=hook_y,
+                          offset=start, length=end - start, hook_secs=hook_secs)
                 safe = re.sub(r"[^A-Za-z0-9_-]", "", c["id"])[:80]
                 out, jpg = wd / f"{safe}.mp4", wd / f"{safe}.jpg"
-                render(src, "subs.ass", out, layout, cam, cfg.get("max_duration", 60), wd)
+                render(src, "subs.ass", out, layout, cam, start, end - start, wd, zoom)
                 thumbnail(out, jpg)
                 upload(out, jpg)
-                item.update(status="pending", video=out.name, thumb=jpg.name, stored=True)
+                item.update(status="pending", video=out.name, thumb=jpg.name, stored=True, duration=round(end - start, 1))
                 added += 1
-                log(f"queued {c['id']} ({c['view_count']} views): {item['title']}")
+                log(f"queued {c['id']} score={item['score']} cut={item['cut']} hook={item['hook']!r}")
         except Exception as e:  # noqa: BLE001
             item["status"] = "error"
             item["error"] = str(e)[:300]
             item["attempts"] = retry.get(c["id"], 0) + 1
             log(f"ERROR on {c['id']}: {e}")
-        queue.append(item)
+        queue = [q for q in queue if q["id"] != item["id"]] + [item]
         save_json(QUEUE, queue)  # save as we go so a timeout keeps progress
         shutil.rmtree(wd, ignore_errors=True)
 

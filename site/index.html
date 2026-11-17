@@ -35,6 +35,10 @@
   .skip { background:#26262d; color:var(--text); }
   .post { background:var(--accent); color:#fff; }
   .post[disabled] { opacity:.6; }
+  .info { padding:2px 14px 0; font-size:13px; color:var(--dim); }
+  .info b { color:var(--text); font-weight:600; }
+  .risk { margin:6px 14px 0; padding:7px 10px; border-radius:10px; background:rgba(255,92,57,.12); color:#ffb4a3; font-size:13px; }
+  .yt { margin:8px 14px 0; background:none; border:1px solid var(--line); color:var(--dim); border-radius:10px; padding:6px 10px; font-size:12px; }
   .src { display:block; padding:0 14px 12px; color:var(--dim); font-size:12px; text-decoration:none; }
   .empty, .pin { text-align:center; color:var(--dim); padding:60px 24px; }
   .empty h2, .pin h2 { color:var(--text); font-size:20px; margin:0 0 8px; }
@@ -129,7 +133,11 @@ function showPin(err) {
   $("#pinGo").onclick = go; $("#pinIn").onkeydown = e => e.key === "Enter" && go();
 }
 
-function caption(c) { return `${c.title}\n${(c.hashtags || []).join(" ")}`.trim(); }
+// TikTok caption (from Claude) + hashtags; older clips fall back to the title.
+function caption(c) {
+  if (c.text != null) return c.text;
+  return `${c.caption || c.title}\n${(c.hashtags || []).join(" ")}`.trim();
+}
 
 function render() {
   const live = clips.filter(c => !c.decision);
@@ -148,12 +156,22 @@ function render() {
       <div class="vid"><video src="clips/${c.video}" poster="clips/${c.thumb}" controls playsinline preload="none"></video></div>
       <div class="meta"><strong></strong> · ${Number(c.views).toLocaleString()} views · ${Math.round(c.duration)}s
         ${c.score != null ? `<span class="score ${c.score >= 8 ? "hi" : ""}">${c.score}/10</span>` : ""}</div>
-      <textarea rows="3"></textarea>
+      <div class="info hook"></div>
+      <div class="info why"></div>
+      <div class="risk" hidden></div>
+      <textarea rows="4"></textarea>
+      <button class="yt">Copy YouTube title</button>
       <div class="row"><button class="skip">Skip</button><button class="post">Post ↗</button></div>
       <a class="src" target="_blank" rel="noopener">Twitch clip: </a>`;
     $("strong", el).textContent = c.streamer;
+    if (c.hook) { $(".hook", el).innerHTML = "<b>Hook:</b> "; $(".hook", el).append(c.hook + (c.archetype ? ` (${c.archetype})` : "")); }
+    $(".why", el).textContent = [c.game, c.payoff || c.reason].filter(Boolean).join(" · ");
+    if (c.risks && c.risks.length) { const r = $(".risk", el); r.hidden = false; r.textContent = "⚠ " + c.risks.join(" · "); }
     const ta = $("textarea", el); ta.value = caption(c);
-    ta.oninput = () => { const [t, ...h] = ta.value.split("\n"); c.title = t; c.hashtags = h.join(" ").split(/\s+/).filter(Boolean); };
+    ta.oninput = () => { c.text = ta.value; };
+    $(".yt", el).onclick = async () => {
+      try { await navigator.clipboard.writeText(c.title); toast("YouTube title copied"); } catch { toast("Couldn't copy"); }
+    };
     const a = $(".src", el); a.href = c.source_url; a.textContent += c.twitch_title;
     $(".skip", el).onclick = () => decide(c, "skipped", el);
     $(".post", el).onclick = () => post(c, el);
@@ -205,7 +223,7 @@ async function decide(c, action, el) {
   c.decision = action;
   el.remove(); render();
   const undo = async () => { c.decision = null; render(); try { await api("POST", { id: c.id, action: "undo" }); } catch {} };
-  toast(action === "posted" ? "Posted. Caption copied. Now submit the link on Whop." : "Skipped", "Undo", undo);
+  toast(action === "posted" ? "Posted. Caption copied. Submit the link on Whop within 30 min." : "Skipped", "Undo", undo);
   try { await api("POST", { id: c.id, action }); }
   catch (e) { if (e.message !== "pin") { c.decision = null; render(); toast("Couldn't save: " + e.message); } }
 }

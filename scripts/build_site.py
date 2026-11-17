@@ -1,4 +1,4 @@
-"""Netlify build: copy the app and pull pending clips from the clip-store release.
+"""Pages build: copy the app and pull pending clips from the clip-store release.
 
 Stdlib only. Env: GITHUB_REPO (owner/name), optional GITHUB_TOKEN for private repos.
 """
@@ -59,7 +59,9 @@ def main():
             print("could not read clip-store release:", e)
 
     out = []
-    for q in sorted(live, key=lambda q: q["added_at"], reverse=True):
+    # Best first: highest Claude score, newest first among equals.
+    live.sort(key=lambda q: (q.get("score") or 0, q["added_at"]), reverse=True)
+    for q in live:
         if q["video"] not in assets:
             continue
         try:

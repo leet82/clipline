@@ -8,7 +8,7 @@ Everything runs on GitHub: Actions does the work every 4 hours and publishes the
 GitHub Actions (every 4h)                        GitHub Pages (phone app)
   Twitch Get Clips (top by views)                  Post ↗ = iOS share sheet (caption copied)
   yt-dlp download → faster-whisper captions        Skip / Undo / Run now
-  Claude score + title (optional)                  writes data/decisions.json via GitHub API
+  Claude: cut, hook, compliance, caption          writes data/decisions.json via GitHub API
   ffmpeg render → clip-store release  ──deploy──▶  (token saved on your phone only)
 ```
 
@@ -20,6 +20,14 @@ GitHub Actions (every 4h)                        GitHub Pages (phone app)
 
 ## Daily loop
 Open app → watch → edit caption → **Post ↗** → TikTok / YouTube → paste caption → submit the post link on Whop.
+
+## How clips are edited
+Claude (Haiku 5.5) reads each clip's timestamped transcript and returns a cut, a hook and the text:
+- **Structure:** hook frame (0-1s, mid-action or peak reaction), stakes (1-3s), escalation, payoff before ~70% of the runtime, then at most ~1.5s of reaction so the clip loops. Most cuts are 8-25s.
+- **Hook box** (≤7 words) on screen from frame 0, clear of the TikTok/Shorts UI zones. Captions highlight each word as it's spoken; slurs are masked and swears softened.
+- **Compliance:** rejects gambling, music, watch parties, misleading framing and GTA 6 story spoilers; flags violence in the first 7s and radio music as risks in the app.
+- The app shows the hook, payoff, risks and a TikTok caption, sorted best score first.
+- **Clip a specific moment:** Actions → Clipline worker → Run workflow → paste Twitch clip links. It also re-renders old clips.
 
 ## Notes
 - Each run takes about 5–15 min. Change the schedule in `.github/workflows/worker.yml`.

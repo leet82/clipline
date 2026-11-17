@@ -3,14 +3,19 @@
 streamers:
   # Swap these for the streamer(s) in the Whop campaign you join.
   - login: kaicenat
-    layout: blur          # blur = full frame over blurred background (works for any stream)
+    layout: blur          # blur = gameplay zoomed over a blurred background (works for any stream)
                           # stack = facecam on top, gameplay below (set facecam box below)
     # facecam: [0.0, 0.0, 0.25, 0.30]   # [x, y, width, height] as fractions of the frame
+    source: permitted     # campaign | permitted (only list streamers you're allowed to clip)
+    # brief: "Paste the campaign rules here: required tags, banned content, disclosure."
+    # zoom: 1.25          # blur layout: how much to enlarge the gameplay (1.0 = full frame, letterboxed)
+
+# games: ["Grand Theft Auto VI"]   # optional: only clip these Twitch categories
 
 lookback_hours: 48        # only look at clips created in this window
 min_views: 300            # ignore Twitch clips with fewer views than this
 max_new_per_run: 6        # rendered clips added to your queue per run
-max_duration: 60          # seconds
-min_score: 6              # 1-10 Claude "will this work as a Short?" score; needs ANTHROPIC_API_KEY
-hashtags: ["#twitch", "#streamer", "#clips"]
+max_duration: 45          # seconds, upper limit; Claude cuts most clips to 8-25s
+min_score: 7              # 1-10 Claude "will a stranger watch to the end?" score; needs ANTHROPIC_API_KEY
+hashtags: []              # hashtags a campaign REQUIRES; Claude adds up to 3 specific ones
 keep_days: 7              # posted clips stay re-shareable this long, then the file is deleted
