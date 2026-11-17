@@ -150,5 +150,42 @@
   "status": "pending",
   "video": "SuspiciousTentativeDotterelCmonBruh-kmqjdjojJmApH5CP.mp4",
   "thumb": "SuspiciousTentativeDotterelCmonBruh-kmqjdjojJmApH5CP.jpg"
+ },
+ {
+  "id": "ColorfulHonorableStorkRuleFive-qb9BubsW6PZVm7N0",
+  "streamer": "KaiCenat",
+  "login": "kaicenat",
+  "game": "Grand Theft Auto VI",
+  "twitch_title": "kai gets emotional",
+  "views": 301,
+  "created_at": "2026-11-16T05:11:57Z",
+  "duration": 30,
+  "source_url": "https://www.twitch.tv/kaicenat/clip/ColorfulHonorableStorkRuleFive-qb9BubsW6PZVm7N0",
+  "added_at": "2026-11-17T23:30:49Z",
+  "stored": false,
+  "transcript": "Yeah, let's take into view. I never get there. I'm going to be in Puerto Rory. Never tell you about the fairground rolled into my hometown when I was a kid. I don't think so. They had male mages and Ferris Wilk, I was a highlight of the goddamn summer for us kids. Everybody had the week of season! And they had this beautiful hairstyle. I don't care this at all.",
+  "score": 3,
+  "reason": "Emotional childhood-memory monologue with no action, stakes, or clear payoff; transcript is garbled and needs more than 5s of context to make sense.",
+  "hook": "KaiCenat's emotional fairground memory",
+  "archetype": "identity",
+  "payoff": "Streamer's emotional line about the fairground, which lands weakly and doesn't deliver a clear punchline or reveal.",
+  "title": "KaiCenat emotional fairground story in GTA 6",
+  "caption": "Kai got emotional about his childhood fairground. Did this story hit you too? 🎥 @kaicenat",
+  "hashtags": [
+   "#KaiCenat",
+   "#GTA6"
+  ],
+  "risks": [
+   "NO PAYOFF: emotional story with no clear beat",
+   "TRANSCRIPT: garbled speech, check audio clarity",
+   "CONTEXT: unclear whether this is in-game or IRL talk; verify video",
+   "NOT A GAME MOMENT: may not fit GTA 6 gameplay clip channel"
+  ],
+  "cut": [
+   9.8,
+   29.0
+  ],
+  "qc_rounds": 0,
+  "status": "filtered"
  }
 ]
