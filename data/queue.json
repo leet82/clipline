@@ -45,21 +45,35 @@
  {
   "id": "ProductiveAlertCaribouCurseLit-QrK-TaLPIQfiuEXf",
   "streamer": "KaiCenat",
+  "login": "kaicenat",
+  "game": "Grand Theft Auto IV",
   "twitch_title": "leave kai alone!!!",
-  "views": 368,
+  "views": 1231,
   "created_at": "2026-11-10T01:19:22Z",
-  "duration": 30,
+  "duration": 5.4,
   "source_url": "https://www.twitch.tv/kaicenat/clip/ProductiveAlertCaribouCurseLit-QrK-TaLPIQfiuEXf",
-  "added_at": "2026-11-12T00:34:48Z",
+  "added_at": "2026-11-17T21:21:19Z",
   "stored": true,
-  "title": "leave kai alone!!!",
-  "hashtags": [
-   "#twitch",
-   "#streamer",
-   "#clips"
-  ],
-  "score": null,
   "transcript": "I hate that. It's like I'm so tired. I'm so fucking tired of grown men trying to dump it under the world. Stop. That's not cool. Like just leave me alone. The fakeest niggas in the fucking world. Full gazing. I need it. I'm fucking talking on me, bro. That shit's annoying, bro. Words have everything I love, game.",
+  "score": 3,
+  "reason": "No clear payoff or context in a garbled rant, and it includes a slur ('niggas') in a hateful-adjacent moment, which fails compliance.",
+  "hook": "",
+  "archetype": "none",
+  "payoff": "Unclear: a heated rant about 'fakeest niggas' with no visible resolution or punchline in the transcript.",
+  "title": "leave kai alone!!!",
+  "caption": "",
+  "hashtags": [],
+  "risks": [
+   "REJECTED: No clear payoff or context in a garbled rant, and it includes a slur ('niggas') in a hateful-adjacent moment, which fails compliance.",
+   "SLUR: transcript contains a slur at 15.3s; hateful/slur-centred content rule applies",
+   "CONTEXT: rant is garbled and unclear without video; drama around 'leave kai alone' cannot be verified",
+   "NO PAYOFF: no clear punchline or reveal in transcript; score 5 or lower",
+   "Source type permitted but moment may depend on off-stream drama, which would need more than 5s of context"
+  ],
+  "cut": [
+   12.2,
+   17.6
+  ],
   "status": "pending",
   "video": "ProductiveAlertCaribouCurseLit-QrK-TaLPIQfiuEXf.mp4",
   "thumb": "ProductiveAlertCaribouCurseLit-QrK-TaLPIQfiuEXf.jpg"
@@ -67,23 +81,73 @@
  {
   "id": "SuspiciousTentativeDotterelCmonBruh-kmqjdjojJmApH5CP",
   "streamer": "KaiCenat",
+  "login": "kaicenat",
+  "game": "Grand Theft Auto V",
   "twitch_title": "KAI CENAT FAILS EASY MISSION",
-  "views": 306,
+  "views": 828,
   "created_at": "2026-11-10T06:23:32Z",
-  "duration": 30,
+  "duration": 7.6,
   "source_url": "https://www.twitch.tv/kaicenat/clip/SuspiciousTentativeDotterelCmonBruh-kmqjdjojJmApH5CP",
-  "added_at": "2026-11-12T00:35:43Z",
+  "added_at": "2026-11-17T21:21:37Z",
   "stored": true,
-  "title": "KAI CENAT FAILS EASY MISSION",
-  "hashtags": [
-   "#twitch",
-   "#streamer",
-   "#clips"
-  ],
-  "score": null,
   "transcript": "I'm gonna be stuck under a cop car. They gotta be more dudes waiting around that way. We did not just get away with that shit Did we you know what I think we did? Oh, man. Oh, yeah, we did it, baby. We did it. Never never go on cheap on a gun man, Jack. I'm never doing cheap, bro. Ever. I'm never doing that shit All right people learn my lesson to split up. They're gonna be looking for a crew. Oh, why are your cuts when the rocks have been",
+  "score": 6,
+  "reason": "Clear escape-from-cops beat with a payoff at 14s and a readable hook; transcript is fragmentary and the title's 'fails' framing conflicts with the success payoff, so the cut is kept with a risk note.",
+  "hook": "Kai Cenat stuck under a cop car",
+  "archetype": "stakes-first",
+  "payoff": "After a near-caught escape from police, Kai shouts 'We did it, baby. We did it.'",
+  "title": "KaiCenat Narrowly Escapes Cops in GTA V",
+  "caption": "Kai Cenat stuck under a cop car, then somehow pulls off the escape. Did he earn that one? 🎥 @kaicenat",
+  "hashtags": [
+   "#GTAV",
+   "#KaiCenat",
+   "#GTA"
+  ],
+  "risks": [
+   "Transcript only; visuals unverified, so confirm the cop-car moment is on screen in the first seconds.",
+   "Title says 'fails' but the payoff is a successful escape; the hook and title were kept spoiler-free and accurate to the payoff, so check the clip doesn't contradict them.",
+   "MUSIC: mute/replace radio if licensed radio is audible.",
+   "VIOLENCE: check first 7s if gunfire or police takedowns are visible.",
+   "Profanity ('shit', 'bro') in audio; consider platform sensitivity settings."
+  ],
+  "cut": [
+   9.8,
+   17.4
+  ],
   "status": "pending",
   "video": "SuspiciousTentativeDotterelCmonBruh-kmqjdjojJmApH5CP.mp4",
   "thumb": "SuspiciousTentativeDotterelCmonBruh-kmqjdjojJmApH5CP.jpg"
+ },
+ {
+  "id": "SillyTubularOilYee-GTZ5PXa-rOA8pYoA",
+  "streamer": "KaiCenat",
+  "login": "kaicenat",
+  "game": "Grand Theft Auto VI",
+  "twitch_title": "Kai Crazy Reaction to GTA VI",
+  "views": 310,
+  "created_at": "2026-11-16T22:23:45Z",
+  "duration": 30,
+  "source_url": "https://www.twitch.tv/kaicenat/clip/SillyTubularOilYee-GTZ5PXa-rOA8pYoA",
+  "added_at": "2026-11-17T21:21:58Z",
+  "stored": false,
+  "transcript": "Pick up straight up first doing the right. Yeah",
+  "score": 3,
+  "reason": "Transcript is too sparse to show a clear payoff or stakes; only 'Pick up' and an unclear line appear, so no truthful hook can be written.",
+  "hook": "",
+  "archetype": "",
+  "payoff": "No identifiable payoff in the transcript",
+  "title": "Kai Crazy Reaction to GTA VI",
+  "caption": "",
+  "hashtags": [],
+  "risks": [
+   "Transcript has only two fragments; the video could not be verified from text alone",
+   "Possible idle or setup stretch with no clear beat",
+   "If reconsidered, check for GTA VI story content and any licensed radio music"
+  ],
+  "cut": [
+   0.0,
+   30.0
+  ],
+  "status": "filtered"
  }
 ]
