@@ -112,46 +112,6 @@
   "thumb": "ProductiveAlertCaribouCurseLit-QrK-TaLPIQfiuEXf.jpg"
  },
  {
-  "id": "SuspiciousTentativeDotterelCmonBruh-kmqjdjojJmApH5CP",
-  "streamer": "KaiCenat",
-  "login": "kaicenat",
-  "game": "Grand Theft Auto V",
-  "twitch_title": "KAI CENAT FAILS EASY MISSION",
-  "views": 828,
-  "created_at": "2026-11-10T06:23:32Z",
-  "duration": 7.0,
-  "source_url": "https://www.twitch.tv/kaicenat/clip/SuspiciousTentativeDotterelCmonBruh-kmqjdjojJmApH5CP",
-  "added_at": "2026-11-17T21:26:23Z",
-  "stored": true,
-  "transcript": "I'm gonna be stuck under a cop car. They gotta be more do's waiting around that way. We did not just get away with that shit, did we? You know what? I think we did. Oh, man. Oh yeah, we did it, baby. We did it. Never, never go on cheap on a gun man, Jack. Jack, I'm never doing cheap, bro, ever. I'm never doing that shit. All right, people. Learn my lesson. They're gonna be looking for a crew. Oh, why are your cuts when the rocks have been s -",
-  "score": 4,
-  "reason": "Transcript shows an escape, not a clear fail, conflicting with the 'fails' title, and the cop-car setup needs more than 5s of context to land.",
-  "hook": "Kai Cenat escapes cops after getting stuck",
-  "archetype": "verbatim quote",
-  "payoff": "Kai yells 'we did it, baby' after apparently escaping the cops, though the moment is unclear without the video.",
-  "title": "Kai Cenat GTA 5 cop escape gone wrong",
-  "caption": "Did Kai really get away with this one? Tell me if you think the cops had a chance 👀 🎥 @kaicenat",
-  "hashtags": [
-   "#KaiCenat",
-   "#GTAV"
-  ],
-  "risks": [
-   "REJECTED: Transcript shows an escape, not a clear fail, conflicting with the 'fails' title, and the cop-car setup needs more than 5s of context to land.",
-   "Transcript only: the video may show a failed mission, which would contradict the escape and make the hook a lie.",
-   "Payoff is unclear and the moment depends on context from the cop-car setup.",
-   "Transcript is cut off mid-sentence at the end, so the full beat is unknown.",
-   "MUSIC: mute/replace radio if licensed radio is audible."
-  ],
-  "cut": [
-   8.9,
-   15.9
-  ],
-  "qc_rounds": 0,
-  "status": "pending",
-  "video": "SuspiciousTentativeDotterelCmonBruh-kmqjdjojJmApH5CP.mp4",
-  "thumb": "SuspiciousTentativeDotterelCmonBruh-kmqjdjojJmApH5CP.jpg"
- },
- {
   "id": "ColorfulHonorableStorkRuleFive-qb9BubsW6PZVm7N0",
   "streamer": "KaiCenat",
   "login": "kaicenat",
@@ -187,5 +147,53 @@
   ],
   "qc_rounds": 0,
   "status": "filtered"
+ },
+ {
+  "id": "SuspiciousTentativeDotterelCmonBruh-kmqjdjojJmApH5CP",
+  "streamer": "KaiCenat",
+  "login": "kaicenat",
+  "game": "Grand Theft Auto V",
+  "twitch_title": "KAI CENAT FAILS EASY MISSION",
+  "views": 835,
+  "created_at": "2026-11-10T06:23:32Z",
+  "duration": 16.6,
+  "source_url": "https://www.twitch.tv/kaicenat/clip/SuspiciousTentativeDotterelCmonBruh-kmqjdjojJmApH5CP",
+  "added_at": "2026-11-18T01:50:07Z",
+  "stored": true,
+  "transcript": "I'm gonna be stuck under a cop car. They gotta be more do's waiting around that way. We did not just get away with that shit, did we? You know what? I think we did. Oh, man. Oh yeah, we did it, baby. We did it. Never, never go on cheap on a gun man, Jack. Jack, I'm never doing cheap, bro, ever. I'm never doing that shit. All right, people. Learn my lesson. They're gonna be looking for a crew. Oh, why are your cuts when the rocks have been s -",
+  "score": 4,
+  "reason": "No clear payoff: the escape is unexplained, the 'we did it' beat is undercut by a fragmented ending, and the clip needs more than 5s of context to make sense.",
+  "hook": "KaiCenat thinks the cop escape worked",
+  "archetype": "reaction-first",
+  "payoff": "Kai shouts 'we did it, baby' after getting away from the cops, then undercuts it with a 'never go cheap' lesson, so the outcome reads as ambiguous.",
+  "title": "KaiCenat GTA V Cop Car Escape Gone Wrong",
+  "caption": "Did Kai really get away with this GTA V heist? Was it a win or a fail? Tell me your take 🎥 @kaicenat",
+  "hashtags": [
+   "#KaiCenat",
+   "#GTAV"
+  ],
+  "risks": [
+   "REJECTED: No clear payoff: the escape is unexplained, the 'we did it' beat is undercut by a fragmented ending, and the clip needs more than 5s of context to make sense.",
+   "Transcript is fragmentary and the final line is cut off, so the outcome is unclear without video.",
+   "Premise depends on the title 'fails easy mission', which the transcript does not confirm.",
+   "Possible GTA V radio music is audible; MUSIC: mute/replace radio if the clip is revisited.",
+   "Clip may be a mission-outcome beat; check whether the escape reads as a clear win or fail before reconsidering."
+  ],
+  "cut": [
+   11.8,
+   28.4
+  ],
+  "qc_rounds": 0,
+  "status": "pending",
+  "video": "SuspiciousTentativeDotterelCmonBruh-kmqjdjojJmApH5CP.mp4",
+  "thumb": "SuspiciousTentativeDotterelCmonBruh-kmqjdjojJmApH5CP.jpg",
+  "timings": {
+   "download": 1.3,
+   "transcribe": 5.3,
+   "claude": 6.6,
+   "render": 12.0,
+   "verify": 0.4,
+   "upload": 2.2
+  }
  }
 ]
