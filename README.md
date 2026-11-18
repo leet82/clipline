@@ -26,9 +26,9 @@ One GitHub Actions job runs these steps in order (measured on the 4-core runner)
 | Runner setup + `apt install ffmpeg` + pip | ~45-60s | fixed cost per run |
 | Self-test | ~11s | offline; stops the run if anything is broken |
 | Per clip: download (yt-dlp) | 2-5s | |
-| Per clip: transcribe (Whisper base, CPU) | 3-6s | |
+| Per clip: transcribe (Whisper base, CPU) | ~5s | |
 | Per clip: Claude edit + QC | 5-30s | 2 calls when it passes first time, up to 6 with fixes |
-| Per clip: render (ffmpeg, 1080x1920) | ~0.45s per second of clip | 30fps first + low-res blur: ~3.5x faster than before |
+| Per clip: render (ffmpeg, 1080x1920) | ~0.7s per second of clip | was ~1.5s; 30fps first + low-res blur |
 | Per clip: verify + upload | 2-4s | |
 | Save queue, build app, deploy Pages | ~15s | |
 
