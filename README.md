@@ -18,6 +18,28 @@ GitHub Actions (every 4h)                        GitHub Pages (phone app)
 3. **Streamer:** edit `config.yml` → the Whop campaign streamer's Twitch login.
 4. Open `https://thomasleegh.github.io/clipline/` → Share → Add to Home Screen → paste the token → **Run now**.
 
+## Pipeline and where the time goes
+One GitHub Actions job runs these steps in order (measured on the 4-core runner):
+
+| Stage | Time | Notes |
+|---|---|---|
+| Runner setup + `apt install ffmpeg` + pip | ~45-60s | fixed cost per run |
+| Self-test | ~11s | offline; stops the run if anything is broken |
+| Per clip: download (yt-dlp) | 2-5s | |
+| Per clip: transcribe (Whisper base, CPU) | 3-6s | |
+| Per clip: Claude edit + QC | 5-30s | 2 calls when it passes first time, up to 6 with fixes |
+| Per clip: render (ffmpeg, 1080x1920) | ~0.45s per second of clip | 30fps first + low-res blur: ~3.5x faster than before |
+| Per clip: verify + upload | 2-4s | |
+| Save queue, build app, deploy Pages | ~15s | |
+
+Rejected clips stop after the Claude step, so they cost about 10-40s each. Each clip's stage timings are saved in `data/queue.json` (`timings`) and in the worker log.
+
+## App side panel (☰)
+- **Runs:** live status of the last 6 runs, **Stop** on anything queued or running (clips finished so far are kept).
+- **Start a run:** Normal (config.yml), More (15 clips, 3 days back) or Max (30 clips, 7 days back), optionally with Twitch clip links.
+- **Schedule:** pause or resume the 4-hourly auto-runs (writes `data/control.json`; manual runs still work).
+- **Archive:** every clip from the last 30 days (posted, to review, skipped, filtered, errors) with the reason and links.
+
 ## Daily loop
 Open app → watch → edit caption → **Post ↗** → TikTok / YouTube → paste caption → submit the post link on Whop.
 

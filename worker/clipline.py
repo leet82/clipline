@@ -234,7 +234,7 @@ def render(src, ass_name, out, layout, facecam, start, length, cwd, zoom=1.25):
         cam_h, game_h = 640, H - 640
         game_w_src = min(sw, int(sh * W / game_h) // 2 * 2)
         graph = (
-            f"[0:v]split[a][b];"
+            f"[0:v]fps=30,split[a][b];"
             f"[a]crop={int(sw*fw)//2*2}:{int(sh*fh)//2*2}:{int(sw*x)}:{int(sh*y)},"
             f"scale={W}:{cam_h}:force_original_aspect_ratio=increase,crop={W}:{cam_h}[cam];"
             f"[b]crop={game_w_src}:{sh}:(iw-{game_w_src})/2:0,"
@@ -246,9 +246,11 @@ def render(src, ass_name, out, layout, facecam, start, length, cwd, zoom=1.25):
         # on a phone screen holds attention better than a thin letterboxed strip.
         fg_w = int(W * zoom) // 2 * 2
         graph = (
-            f"[0:v]split[a][b];"
-            f"[a]scale={W}:{H}:force_original_aspect_ratio=increase,crop={W}:{H},"
-            f"boxblur=24:2,eq=brightness=-0.12[bg];"
+            # Twitch sources are often 60fps: convert to 30fps first so every filter does half
+            # the frames, and blur the background at 1/10 size (looks the same, ~4x cheaper).
+            f"[0:v]fps=30,split[a][b];"
+            f"[a]scale={W//10}:{H//10}:force_original_aspect_ratio=increase,crop={W//10}:{H//10},"
+            f"boxblur=4:1,scale={W}:{H},eq=brightness=-0.12[bg];"
             f"[b]scale={fg_w}:-2,crop={W}:ih[fg];"
             f"[bg][fg]overlay=(W-w)/2:(H-h)/2,setsar=1,ass={ass_name}[v]"
         )
@@ -599,6 +601,15 @@ def main():
         log("Twitch keys not set yet (TWITCH_CLIENT_ID / TWITCH_CLIENT_SECRET) — skipping. DONE")
         return 0
     cfg = yaml.safe_load((ROOT / "config.yml").read_text())
+    # Run controls from the app's side panel.
+    control = load_json(DATA / "control.json", {})
+    if control.get("paused") and os.environ.get("CLIPLINE_EVENT") == "schedule":
+        log("Auto-runs are paused in the app — skipping this scheduled run. DONE")
+        return 0
+    for key, env in (("max_new_per_run", "CLIPLINE_MAX_NEW"), ("lookback_hours", "CLIPLINE_LOOKBACK")):
+        if os.environ.get(env, "").strip().isdigit():
+            cfg[key] = int(os.environ[env])
+            log(f"{key} = {cfg[key]} for this run")
     queue = load_json(QUEUE, [])
     decisions = load_json(DECISIONS, {})
     # Clips that errored get retried on later runs, up to 3 attempts.
@@ -654,12 +665,22 @@ def main():
         item = {"id": c["id"], "streamer": c["broadcaster_name"], "login": c["_login"], "game": c["_game"],
                 "twitch_title": c["title"], "views": c["view_count"], "created_at": c["created_at"],
                 "duration": c["duration"], "source_url": c["url"], "added_at": iso(now()), "stored": False}
+        timings, t0 = {}, time.time()
+
+        def lap(stage):
+            t = time.time()
+            timings[stage] = round(t - lap.last, 1)
+            lap.last = t
+        lap.last = t0
         try:
             src = wd / "src.mp4"
             run(["yt-dlp", "-q", "--no-warnings", "-f", "best[ext=mp4]/best", "-o", str(src), c["url"]])
+            lap("download")
             words = transcribe(src)
             _, _, src_dur = probe(src)
+            lap("transcribe")
             rv = review(c, words, src_dur, cfg, s)
+            lap("claude")
             transcript = " ".join(w[2] for w in words)
             item["transcript"] = transcript[:500]
             max_dur = cfg.get("max_duration", 60)
@@ -694,11 +715,14 @@ def main():
                 safe = re.sub(r"[^A-Za-z0-9_-]", "", c["id"])[:80]
                 out, jpg = wd / f"{safe}.mp4", wd / f"{safe}.jpg"
                 render(src, "subs.ass", out, layout, cam, start, end - start, wd, zoom)
+                lap("render")
                 bad = verify_render(out, end - start)
+                lap("verify")
                 if bad:
                     raise RuntimeError("render check failed: " + "; ".join(bad))
                 thumbnail(out, jpg)
                 upload(out, jpg)
+                lap("upload")
                 item.update(status="pending", video=out.name, thumb=jpg.name, stored=True, duration=round(end - start, 1))
                 added += 1
                 log(f"queued {c['id']} score={item['score']} cut={item['cut']} hook={item['hook']!r}")
@@ -707,6 +731,8 @@ def main():
             item["error"] = str(e)[:300]
             item["attempts"] = retry.get(c["id"], 0) + 1
             log(f"ERROR on {c['id']}: {e}")
+        item["timings"] = timings
+        log(f"timings {c['id'][:24]}: {timings} total={round(time.time() - t0, 1)}s")
         queue = [q for q in queue if q["id"] != item["id"]] + [item]
         save_json(QUEUE, queue)  # save as we go so a timeout keeps progress
         shutil.rmtree(wd, ignore_errors=True)

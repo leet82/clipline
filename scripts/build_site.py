@@ -76,6 +76,22 @@ def main():
         out.append(q)
 
     (DIST / "clips.json").write_text(json.dumps({"repo": REPO, "clips": out}))
+
+    # Archive for the app's side panel: every clip seen in the last 30 days.
+    # Files still on the release (posted within keep_days) link straight to the asset.
+    dl = f"https://github.com/{REPO}/releases/download/clip-store/"
+    keep = ["id", "streamer", "game", "title", "hook", "score", "status", "reason", "error", "added_at",
+            "created_at", "views", "duration", "source_url", "risks", "timings", "cut"]
+    archive = []
+    for q in sorted(queue, key=lambda q: q["added_at"], reverse=True):
+        a = {k: q[k] for k in keep if q.get(k) not in (None, "", [])}
+        d = decisions.get(q["id"])
+        if d:
+            a["decision"], a["decided_at"] = d["action"], d["at"]
+        if q.get("stored") and q.get("video"):
+            a["video_url"] = dl + q["video"]
+        archive.append(a)
+    (DIST / "archive.json").write_text(json.dumps(archive))
     print(f"built site with {len(out)} clips")
 
 

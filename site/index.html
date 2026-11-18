@@ -50,6 +50,37 @@
            align-items:center; transition:transform .25s; max-width:92vw; font-size:14px; z-index:10; }
   #toast.show { transform:translateX(-50%) translateY(0); }
   #toast button { background:none; border:0; color:var(--accent); font:600 14px inherit; }
+  /* side panel */
+  #scrim { position:fixed; inset:0; background:rgba(0,0,0,.5); opacity:0; pointer-events:none; transition:opacity .2s; z-index:20; }
+  #scrim.show { opacity:1; pointer-events:auto; }
+  #panel { position:fixed; top:0; right:0; bottom:0; width:min(420px, 92vw); background:var(--bg); border-left:1px solid var(--line);
+           transform:translateX(100%); transition:transform .25s; z-index:21; overflow-y:auto; -webkit-overflow-scrolling:touch;
+           padding:calc(env(safe-area-inset-top) + 12px) 16px calc(env(safe-area-inset-bottom) + 24px); }
+  #panel.show { transform:none; }
+  #panel h2 { font-size:13px; text-transform:uppercase; letter-spacing:.6px; color:var(--dim); margin:22px 0 8px; }
+  #panel .top { display:flex; align-items:center; justify-content:space-between; }
+  #panel .top h2 { margin:0; font-size:19px; text-transform:none; letter-spacing:-.3px; color:var(--text); }
+  .run { display:flex; align-items:center; gap:10px; padding:10px 12px; background:var(--card); border:1px solid var(--line); border-radius:12px; margin-bottom:8px; font-size:13px; }
+  .run .st { width:9px; height:9px; border-radius:50%; flex:none; background:var(--dim); }
+  .run .st.live { background:#ffc23d; animation:pulse 1.2s infinite; } .run .st.ok { background:var(--ok); } .run .st.bad { background:var(--accent); }
+  @keyframes pulse { 50% { opacity:.35; } }
+  .run .what { flex:1; min-width:0; } .run .what small { display:block; color:var(--dim); }
+  .run button, .chip, .seg button { background:#26262d; border:1px solid var(--line); color:var(--text); border-radius:10px; padding:6px 10px; font:600 13px inherit; }
+  .run button.stop { color:#ffb4a3; }
+  .seg { display:flex; gap:6px; } .seg button { flex:1; padding:10px 6px; } .seg button small { display:block; font-weight:400; color:var(--dim); font-size:11px; margin-top:2px; }
+  .seg button.on, .chip.on { background:rgba(255,92,57,.15); border-color:var(--accent); color:#fff; }
+  #links { width:100%; margin:8px 0 0; min-height:56px; }
+  .go { width:100%; margin-top:8px; border:0; border-radius:12px; padding:12px; background:var(--accent); color:#fff; font:600 15px inherit; }
+  .toggle { display:flex; align-items:center; justify-content:space-between; gap:10px; padding:10px 12px; background:var(--card); border:1px solid var(--line); border-radius:12px; font-size:14px; }
+  .toggle input { width:22px; height:22px; accent-color:var(--accent); }
+  .chips { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:10px; } .chip { font-weight:500; padding:5px 10px; border-radius:20px; }
+  .arc { padding:10px 12px; border-bottom:1px solid var(--line); font-size:13px; }
+  .arc b { display:block; font-size:14px; font-weight:600; margin-bottom:2px; }
+  .arc .sub { color:var(--dim); } .arc .why { color:var(--dim); margin-top:3px; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+  .arc a { color:var(--accent); text-decoration:none; margin-right:12px; }
+  .tag { display:inline-block; padding:1px 7px; border-radius:10px; font-size:11px; font-weight:600; background:#26262d; margin-left:4px; }
+  .tag.posted { color:var(--ok); } .tag.skipped { color:var(--dim); } .tag.filtered { color:#ffc23d; } .tag.error { color:#ffb4a3; } .tag.pending { color:#9cc3ff; }
+  .muted { color:var(--dim); font-size:13px; }
 </style>
 </head>
 <body>
@@ -57,7 +88,31 @@
   <h1>Clip<b>line</b></h1>
   <span id="count"></span>
   <button class="icon-btn" id="runBtn" hidden>Run now</button>
+  <button class="icon-btn" id="menuBtn" hidden aria-label="Runs and archive">☰</button>
 </header>
+<div id="scrim"></div>
+<aside id="panel" aria-hidden="true">
+  <div class="top"><h2>Runs &amp; archive</h2><button class="icon-btn" id="closeBtn">Close</button></div>
+  <h2>Runs</h2>
+  <div id="runs"><div class="muted">Loading…</div></div>
+  <h2>Start a run</h2>
+  <div class="seg" id="vol">
+    <button data-v="normal" class="on">Normal<small>config.yml</small></button>
+    <button data-v="more">More<small>15 clips · 3 days</small></button>
+    <button data-v="max">Max<small>30 clips · 7 days</small></button>
+  </div>
+  <textarea id="links" placeholder="Optional: paste Twitch clip links to clip these exact moments"></textarea>
+  <button class="go" id="startBtn">Start run</button>
+  <h2>Schedule</h2>
+  <label class="toggle"><span>Auto-run every 4 hours</span><input type="checkbox" id="autoRun" checked></label>
+  <h2>Archive</h2>
+  <div class="chips" id="arcFilter">
+    <button class="chip on" data-f="all">All</button><button class="chip" data-f="posted">Posted</button>
+    <button class="chip" data-f="pending">To review</button><button class="chip" data-f="skipped">Skipped</button>
+    <button class="chip" data-f="filtered">Filtered</button><button class="chip" data-f="error">Errors</button>
+  </div>
+  <div id="archive"><div class="muted">Loading…</div></div>
+</aside>
 <main id="main"></main>
 <div id="toast"><span id="toastMsg"></span><button id="toastBtn"></button></div>
 
@@ -71,6 +126,7 @@ const store = {
 let token = store.get("clipline-token");
 let repo = "";
 let clips = [];
+let liveDecisions = {};
 const files = new Map();      // id -> File (prefetched so the share sheet opens instantly)
 const DECISIONS = "data/decisions.json";
 
@@ -92,6 +148,26 @@ async function readDecisions() {
   if (!r.ok) throw new Error(`GitHub ${r.status}`);
   const j = await r.json();
   return { data: JSON.parse(b64decode(j.content) || "{}"), sha: j.sha };
+}
+
+// Generic read-modify-write of a JSON file in the repo, retrying on sha conflicts.
+async function readJSON(path) {
+  const r = await gh(`/contents/${path}?ref=main`);
+  if (r.status === 404) return { data: {}, sha: undefined };
+  if (!r.ok) throw new Error(`GitHub ${r.status}`);
+  const j = await r.json();
+  return { data: JSON.parse(b64decode(j.content) || "{}"), sha: j.sha };
+}
+async function updateJSON(path, mutate, message) {
+  for (let attempt = 0; attempt < 4; attempt++) {
+    const { data, sha } = await readJSON(path);
+    mutate(data);
+    const r = await gh(`/contents/${path}`, { method: "PUT",
+      body: JSON.stringify({ message, sha, branch: "main", content: b64encode(JSON.stringify(data, null, 1) + "\n") }) });
+    if (r.ok) return data;
+    if (r.status !== 409 && r.status !== 422) throw new Error(`GitHub ${r.status}`);
+  }
+  throw new Error("conflict, try again");
 }
 
 async function api(method, body) {
@@ -126,7 +202,7 @@ function toast(msg, btnText, onBtn) {
 }
 
 function showPin(err) {
-  $("#runBtn").hidden = true; $("#count").textContent = "";
+  $("#runBtn").hidden = true; $("#menuBtn").hidden = true; $("#count").textContent = "";
   $("#main").innerHTML = `<div class="pin"><h2>Paste your GitHub token</h2><div>${err || "The fine-grained token for the clipline repo. It's saved only on this phone."}</div>
     <input id="pinIn" type="password" autocomplete="off" style="width:260px;font-size:15px;letter-spacing:0"><button id="pinGo">Save</button></div>`;
   const go = () => { token = $("#pinIn").value.trim(); if (!token) return; store.set("clipline-token", token); load(); };
@@ -142,7 +218,7 @@ function caption(c) {
 function render() {
   const live = clips.filter(c => !c.decision);
   $("#count").textContent = live.length ? `${live.length} to review` : "";
-  $("#runBtn").hidden = false;
+  $("#runBtn").hidden = false; $("#menuBtn").hidden = false;
   if (!live.length) {
     $("#main").innerHTML = `<div class="empty"><h2>All caught up</h2>
       <div>The worker checks for new clips every 4 hours.<br>Tap <b>Run now</b> to check right away; new clips show up here a few minutes after it finishes.</div></div>`;
@@ -239,12 +315,134 @@ async function load() {
     const site = await fetch("clips.json", { cache: "no-store" }).then(r => r.json());
     repo = site.repo;
     const decisions = await api("GET");
+    liveDecisions = decisions;
     clips = site.clips.map(c => ({ ...c, decision: decisions[c.id]?.action || null }));
     render();
   } catch (e) {
     if (e.message !== "pin") $("#main").innerHTML = `<div class="empty"><h2>Couldn't load</h2><div>${String(e.message)}</div></div>`;
   }
 }
+
+// ---------------------------------------------------------------- side panel
+const VOLUMES = { normal: {}, more: { max_new: "15", lookback_hours: "72" }, max: { max_new: "30", lookback_hours: "168" } };
+let volume = "normal", arcFilter = "all", archive = null, pollTimer = null;
+const ago = t => { const m = Math.round((Date.now() - new Date(t)) / 60000);
+  return m < 1 ? "just now" : m < 60 ? `${m} min ago` : m < 1440 ? `${Math.round(m / 60)} h ago` : `${Math.round(m / 1440)} d ago`; };
+const node = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
+
+function openPanel() {
+  $("#panel").classList.add("show"); $("#scrim").classList.add("show"); $("#panel").setAttribute("aria-hidden", "false");
+  loadRuns(); loadArchive(); loadControl();
+}
+function closePanel() {
+  $("#panel").classList.remove("show"); $("#scrim").classList.remove("show"); $("#panel").setAttribute("aria-hidden", "true");
+  clearTimeout(pollTimer);
+}
+
+async function loadRuns() {
+  clearTimeout(pollTimer);
+  try {
+    const r = await gh(`/actions/workflows/worker.yml/runs?per_page=6`);
+    if (!r.ok) throw new Error(`GitHub ${r.status}`);
+    const runs = (await r.json()).workflow_runs;
+    const box = $("#runs"); box.innerHTML = "";
+    if (!runs.length) box.append(node("div", "muted", "No runs yet."));
+    let live = false;
+    for (const run of runs) {
+      const active = run.status !== "completed"; live ||= active;
+      const row = node("div", "run");
+      const dot = node("span", "st " + (active ? "live" : run.conclusion === "success" ? "ok" : run.conclusion === "cancelled" ? "" : "bad"));
+      const label = active ? (run.status === "queued" || run.status === "waiting" ? "Queued" : "Running")
+        : run.conclusion === "success" ? "Done" : run.conclusion === "cancelled" ? "Stopped" : "Failed";
+      const mins = Math.max(1, Math.round((new Date(active ? Date.now() : run.updated_at) - new Date(run.run_started_at || run.created_at)) / 60000));
+      const what = node("div", "what", `${label} · ${run.event === "schedule" ? "scheduled" : run.event === "push" ? "app update" : "manual"}`);
+      what.append(node("small", null, `${ago(run.created_at)} · ${mins} min`));
+      row.append(dot, what);
+      if (active) {
+        const b = node("button", "stop", "Stop");
+        b.onclick = async () => {
+          b.disabled = true; b.textContent = "Stopping…";
+          const c = await gh(`/actions/runs/${run.id}/cancel`, { method: "POST" });
+          toast(c.ok || c.status === 202 ? "Stopping run. Clips finished so far are kept." : `Couldn't stop (GitHub ${c.status})`);
+          setTimeout(loadRuns, 3000);
+        };
+        row.append(b);
+      } else {
+        const a = node("a", null, "Log"); a.href = run.html_url; a.target = "_blank"; a.rel = "noopener";
+        a.style.cssText = "color:var(--dim);text-decoration:none;font-size:13px"; row.append(a);
+      }
+      box.append(row);
+    }
+    if (live && $("#panel").classList.contains("show")) pollTimer = setTimeout(loadRuns, 8000);
+  } catch (e) { if (e.message !== "pin") $("#runs").innerHTML = `<div class="muted">Couldn't load runs: ${String(e.message)}</div>`; }
+}
+
+async function startRun() {
+  const btn = $("#startBtn"); btn.disabled = true;
+  const inputs = { ...VOLUMES[volume] };
+  const links = $("#links").value.trim();
+  if (links) inputs.clips = links;
+  try {
+    const r = await gh(`/actions/workflows/worker.yml/dispatches`, { method: "POST", body: JSON.stringify({ ref: "main", inputs }) });
+    if (!r.ok) throw new Error(`GitHub ${r.status}`);
+    $("#links").value = "";
+    toast(volume === "normal" ? "Run started." : `Run started (${volume}). Bigger runs take longer.`);
+    setTimeout(loadRuns, 2500);
+  } catch (e) { if (e.message !== "pin") toast("Couldn't start: " + e.message); }
+  btn.disabled = false;
+}
+
+async function loadControl() {
+  try { const { data } = await readJSON("data/control.json"); $("#autoRun").checked = !data.paused; } catch {}
+}
+async function setAuto(on) {
+  try {
+    await updateJSON("data/control.json", d => { d.paused = !on; d.at = new Date().toISOString(); }, on ? "app: resume auto-runs" : "app: pause auto-runs");
+    toast(on ? "Auto-runs on." : "Auto-runs paused. Manual runs still work.");
+  } catch (e) { $("#autoRun").checked = !on; if (e.message !== "pin") toast("Couldn't save: " + e.message); }
+}
+
+async function loadArchive() {
+  try {
+    if (!archive) archive = await fetch("archive.json", { cache: "no-store" }).then(r => r.ok ? r.json() : []);
+  } catch { archive = []; }
+  renderArchive();
+}
+function renderArchive() {
+  const box = $("#archive"); box.innerHTML = "";
+  const rows = (archive || []).map(a => {
+    const d = liveDecisions[a.id]?.action || a.decision;
+    return { ...a, state: d || (a.status === "pending" ? "pending" : a.status) };
+  }).filter(a => arcFilter === "all" || a.state === arcFilter);
+  if (!rows.length) { box.append(node("div", "muted", "Nothing here yet.")); return; }
+  const label = { posted: "posted", skipped: "skipped", filtered: "filtered", error: "error", pending: "to review" };
+  for (const a of rows.slice(0, 150)) {
+    const row = node("div", "arc");
+    const b = node("b", null, a.hook || a.title || a.id);
+    b.append(node("span", "tag " + a.state, label[a.state] || a.state));
+    const sub = [a.streamer, a.game, a.score != null ? `${a.score}/10` : null, a.duration ? `${Math.round(a.duration)}s` : null, ago(a.added_at)]
+      .filter(Boolean).join(" · ");
+    row.append(b, node("div", "sub", sub));
+    const why = a.state === "error" ? a.error : a.reason;
+    if (why) row.append(node("div", "why", why));
+    const links = node("div"); links.style.marginTop = "5px";
+    if (a.video_url) { const v = node("a", null, "Video"); v.href = a.video_url; v.target = "_blank"; v.rel = "noopener"; links.append(v); }
+    const t = node("a", null, "Twitch"); t.href = a.source_url; t.target = "_blank"; t.rel = "noopener"; links.append(t);
+    row.append(links); box.append(row);
+  }
+  if (rows.length > 150) box.append(node("div", "muted", `+ ${rows.length - 150} older`));
+}
+
+$("#menuBtn").onclick = openPanel;
+$("#closeBtn").onclick = closePanel;
+$("#scrim").onclick = closePanel;
+$("#startBtn").onclick = startRun;
+$("#autoRun").onchange = e => setAuto(e.target.checked);
+$("#vol").onclick = e => { const b = e.target.closest("button"); if (!b) return;
+  volume = b.dataset.v; for (const x of $("#vol").children) x.classList.toggle("on", x === b); };
+$("#arcFilter").onclick = e => { const b = e.target.closest("button"); if (!b) return;
+  arcFilter = b.dataset.f; for (const x of $("#arcFilter").children) x.classList.toggle("on", x === b); renderArchive(); };
+
 load();
 </script>
 </body>
