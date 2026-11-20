@@ -2396,5 +2396,321 @@
    "transcribe": 1.5,
    "claude": 5.6
   }
+ },
+ {
+  "id": "BoldEncouragingHamJonCarnage-pe0Q59lJ1Zj-4lUY",
+  "streamer": "KaiCenat",
+  "login": "kaicenat",
+  "game": "Grand Theft Auto VI",
+  "twitch_title": "finding skunk ape",
+  "views": 3327,
+  "created_at": "2026-11-18T22:58:27Z",
+  "duration": 22.7,
+  "source_url": "https://www.twitch.tv/kaicenat/clip/BoldEncouragingHamJonCarnage-pe0Q59lJ1Zj-4lUY",
+  "added_at": "2026-11-20T07:25:09Z",
+  "stored": false,
+  "transcript": "",
+  "score": 3,
+  "reason": "No speech in transcript and no verifiable payoff; the title 'finding skunk ape' alone can't show a clear beat, so it's unverifiable and likely slow search footage.",
+  "hook": "",
+  "archetype": "",
+  "payoff": "Unknown: no transcript, so no visible or audible payoff can be confirmed.",
+  "title": "finding skunk ape",
+  "caption": "",
+  "hashtags": [],
+  "risks": [
+   "NO TRANSCRIPT: cannot verify payoff or escalation from audio",
+   "Possible idle exploration or search with nothing happening",
+   "Check for story spoilers or cutscenes before any reconsideration",
+   "Check for graphic violence or licensed radio music if re-reviewed with video"
+  ],
+  "cut": [
+   0.0,
+   5.0
+  ],
+  "qc_rounds": 0,
+  "status": "filtered",
+  "timings": {
+   "download": 1.5,
+   "transcribe": 1.7,
+   "claude": 4.4
+  }
+ },
+ {
+  "id": "SpinelessWisePidgeonHeyGirl-hu10S79MNJZ3qxvT",
+  "streamer": "KaiCenat",
+  "login": "kaicenat",
+  "game": "Grand Theft Auto VI",
+  "twitch_title": "on another levld",
+  "views": 789,
+  "created_at": "2026-11-19T15:53:04Z",
+  "duration": 39.5,
+  "source_url": "https://www.twitch.tv/kaicenat/clip/SpinelessWisePidgeonHeyGirl-hu10S79MNJZ3qxvT",
+  "added_at": "2026-11-20T07:25:17Z",
+  "stored": false,
+  "transcript": "Nah, nah, nah, nah, nah, nah. You serious, bro? Hey, it's alright, bro. It's alright, you li - That's not a man dumb doing anything. I hear you, man, I hear you. I just come to make some business, gonna record you getting it. You get me. This seems like it's gonna be a start. You know what I'm seeing? Hey, Drake want me to get you li - Shit, you're inviting city now. I'm telling the fuck up! Hey, fuck being shot. Hey, we proud, bro. Jason, we out this bitch. And the man so pleased we down. I wou",
+  "score": 3,
+  "reason": "Dialogue with Jason and Drake reads like GTA VI story/mission cutscene content, which the rules reject, and there is no clear standalone payoff.",
+  "hook": "",
+  "archetype": "",
+  "payoff": "No clear payoff; the lines end on 'Where are we going?' without a visible outcome.",
+  "title": "on another levld",
+  "caption": "",
+  "hashtags": [],
+  "risks": [
+   "STORY: transcript suggests cutscene or mission dialogue with named characters (Jason, Drake), spoiler risk",
+   "UNCLEAR: transcript is fragmented and I cannot see the video, so the source of the dialogue is uncertain",
+   "MUSIC: possible radio audio, not verifiable from transcript"
+  ],
+  "cut": [
+   0.0,
+   5.0
+  ],
+  "qc_rounds": 0,
+  "status": "filtered",
+  "timings": {
+   "download": 0.9,
+   "transcribe": 12.0,
+   "claude": 3.6
+  }
+ },
+ {
+  "id": "GrotesqueSmokyTubersPJSalt-W_UwWZs8yV3Rz-nf",
+  "streamer": "KaiCenat",
+  "login": "kaicenat",
+  "game": "Grand Theft Auto VI",
+  "twitch_title": "copyright test",
+  "views": 1376,
+  "created_at": "2026-11-19T01:28:54Z",
+  "duration": 30,
+  "source_url": "https://www.twitch.tv/kaicenat/clip/GrotesqueSmokyTubersPJSalt-W_UwWZs8yV3Rz-nf",
+  "added_at": "2026-11-20T07:25:33Z",
+  "stored": false,
+  "transcript": "We're gonna pass this one, bleeding out. Okay. Watch way back. Okay. Push in here, push him right out. All right, so, you'll be able to come from here inside. Stop the girl, come on! We're good. Hang in there. Move, move. Come here.",
+  "score": 3,
+  "reason": "Transcript reads as a GTA VI mission (bleeding out, 'stop the girl', 'push him out') with no clear payoff and heavy context needed, so it risks story-spoiler and violence issues and fails the hook test.",
+  "hook": "",
+  "archetype": "",
+  "payoff": "Unclear; 'Stop the girl, come on!' is the closest peak, but the outcome is not shown in the transcript.",
+  "title": "copyright test",
+  "caption": "",
+  "hashtags": [],
+  "risks": [
+   "STORY: possible mission content; check for story reveal or character death before any reuse",
+   "VIOLENCE: 'bleeding out' suggests combat; check first 7s if reconsidered",
+   "CONTEXT: needs more than 5s of setup to make sense, so the score is capped at 5 or lower",
+   "Transcript only; unable to verify visuals or whether this is a mission cutscene"
+  ],
+  "cut": [
+   15.4,
+   24.4
+  ],
+  "qc_rounds": 0,
+  "status": "filtered",
+  "timings": {
+   "download": 0.9,
+   "transcribe": 2.4,
+   "claude": 3.6
+  }
+ },
+ {
+  "id": "StylishResourcefulStorkOpieOP-U6qZibJHWFY6Iib_",
+  "streamer": "KaiCenat",
+  "login": "kaicenat",
+  "game": "Grand Theft Auto VI",
+  "twitch_title": "kai is shocked 🤯😂",
+  "views": 958,
+  "created_at": "2026-11-19T09:32:42Z",
+  "duration": 30,
+  "source_url": "https://www.twitch.tv/kaicenat/clip/StylishResourcefulStorkOpieOP-U6qZibJHWFY6Iib_",
+  "added_at": "2026-11-20T07:25:40Z",
+  "stored": false,
+  "transcript": "Wait, whoa, what's the hit? No! Wow! No! Look at me wash my hands every day!",
+  "score": 3,
+  "reason": "Sparse transcript with a 16s silent gap and an unclear 'the hit' beat that may be a story mission; no verifiable payoff or context, so it fails the structure and story-spoiler rules.",
+  "hook": "",
+  "archetype": "",
+  "payoff": "Kai says 'Look at me wash my hands every day!' after a series of reactions; the joke is unclear without video.",
+  "title": "kai is shocked 🤯😂",
+  "caption": "",
+  "hashtags": [],
+  "risks": [
+   "STORY: 'what's the hit?' may be a mission or story beat, check before any use",
+   "VIOLENCE: check first 7s if 'the hit' involves kills",
+   "MUSIC: check for licensed radio audio",
+   "Transcript too thin to judge the moment; review the video before reconsidering"
+  ],
+  "cut": [
+   19.6,
+   30.0
+  ],
+  "qc_rounds": 0,
+  "status": "filtered",
+  "timings": {
+   "download": 0.9,
+   "transcribe": 1.8,
+   "claude": 3.7
+  }
+ },
+ {
+  "id": "TrappedFrailSproutSMOrc-m1ZljM4xqIOiw5wk",
+  "streamer": "KaiCenat",
+  "login": "kaicenat",
+  "game": "Grand Theft Auto VI",
+  "twitch_title": "copyright test",
+  "views": 890,
+  "created_at": "2026-11-19T01:40:16Z",
+  "duration": 46.2,
+  "source_url": "https://www.twitch.tv/kaicenat/clip/TrappedFrailSproutSMOrc-m1ZljM4xqIOiw5wk",
+  "added_at": "2026-11-20T07:25:47Z",
+  "stored": false,
+  "transcript": "Sure, sure. It's all good. Text me. Rockstar, this is what we like to see. Rockstar!",
+  "score": 3,
+  "reason": "Transcript shows only casual chat and a bare 'Rockstar!' exclamation with no clear visible payoff, so it needs context and nothing clearly happens.",
+  "hook": "KaiCenat yells 'Rockstar!' in GTA 6",
+  "archetype": "named callout",
+  "payoff": "Unclear: a shouted 'Rockstar!' with no identifiable event in the transcript",
+  "title": "KaiCenat GTA 6 'Rockstar!' moment",
+  "caption": "Kai's 'Rockstar' reaction in GTA 6. What did he just see? Tell me in the comments 🎥 @kaicenat",
+  "hashtags": [
+   "#GTA6",
+   "#KaiCenat",
+   "#Twitch"
+  ],
+  "risks": [
+   "Transcript only, cannot confirm the on-screen event behind the 'Rockstar!' line",
+   "Payoff is unclear and may be missing context",
+   "Twitch clip title 'copyright test' is odd; verify the source is legitimate and permitted",
+   "Possible GTA 6 story content if the moment is a mission or cutscene; check before any reconsideration",
+   "Clip is 46.2s and the transcript ends at 21.3s, so most of the runtime has no transcript coverage"
+  ],
+  "cut": [
+   13.8,
+   23.2
+  ],
+  "qc_rounds": 0,
+  "status": "filtered",
+  "timings": {
+   "download": 1.0,
+   "transcribe": 1.8,
+   "claude": 4.7
+  }
+ },
+ {
+  "id": "OddSpicyWeaselMrDestructoid-Rp1pkJt2BiLvEDCq",
+  "streamer": "KaiCenat",
+  "login": "kaicenat",
+  "game": "Grand Theft Auto VI",
+  "twitch_title": "watch kai blow up a gas station and hit 6 STARS",
+  "views": 744,
+  "created_at": "2026-11-19T06:23:49Z",
+  "duration": 60,
+  "source_url": "https://www.twitch.tv/kaicenat/clip/OddSpicyWeaselMrDestructoid-Rp1pkJt2BiLvEDCq",
+  "added_at": "2026-11-20T07:25:54Z",
+  "stored": false,
+  "transcript": "",
+  "score": 4,
+  "reason": "No speech in the transcript, so the payoff and timing can't be verified; the title alone isn't enough to build a spoiler-free hook.",
+  "hook": "",
+  "archetype": "",
+  "payoff": "Unverified from transcript; title implies a gas station explosion and a 6-star wanted level, but no timestamp confirms it.",
+  "title": "watch kai blow up a gas station and hit 6 STARS",
+  "caption": "",
+  "hashtags": [],
+  "risks": [
+   "VIOLENCE: check first 7s",
+   "MUSIC: mute/replace radio",
+   "No transcript: cannot confirm payoff timing or content from audio, only the Twitch title",
+   "Re-review if a timestamped transcript or visual check becomes available"
+  ],
+  "cut": [
+   0.0,
+   5.0
+  ],
+  "qc_rounds": 0,
+  "status": "filtered",
+  "timings": {
+   "download": 1.0,
+   "transcribe": 0.8,
+   "claude": 3.6
+  }
+ },
+ {
+  "id": "MildCoweringPenguinAMPEnergy-e1dnSqLkLUAyRQ8_",
+  "streamer": "KaiCenat",
+  "login": "kaicenat",
+  "game": "Grand Theft Auto VI",
+  "twitch_title": "gta6_king1",
+  "views": 528,
+  "created_at": "2026-11-19T08:35:16Z",
+  "duration": 59,
+  "source_url": "https://www.twitch.tv/kaicenat/clip/MildCoweringPenguinAMPEnergy-e1dnSqLkLUAyRQ8_",
+  "added_at": "2026-11-20T07:26:00Z",
+  "stored": false,
+  "transcript": "Fuck you, eh? Oh, yeah, man, man, man, oh. We got a situation happening. My friends on the task force are on their way. They said they're paying you a visit, so just let them take whatever they want, OK? The fuck you talking about? You know I got a niggasadio mama. Oh, my gosh, oh, my gosh. They sent it very closely. This thing looks amazing. Raymon, the fuck is that? Hey, your brain's 12. They told up an everything. Raymon, look at these guys. Oh, my god. Hey, guys, look at all your shit. Oh, b",
+  "score": 3,
+  "reason": "No clear payoff or coherent beat, and the transcript contains a slur plus possible lyric-like audio, so it fails compliance and quality checks.",
+  "hook": "",
+  "archetype": "none",
+  "payoff": "No identifiable payoff; the dialogue is fragmented and the moment is unclear.",
+  "title": "gta6_king1",
+  "caption": "",
+  "hashtags": [],
+  "risks": [
+   "SLUR: transcript contains a slur at ~13.7s; hateful-content risk",
+   "MUSIC: lines may be song lyrics or a music video; copyright risk",
+   "UNCLEAR: no clear payoff or context from transcript alone; judged without video",
+   "ROLEPLAY: task force/police scenario may be story or mission content; check for GTA VI story spoilers if reconsidered"
+  ],
+  "cut": [
+   0.0,
+   5.0
+  ],
+  "qc_rounds": 0,
+  "status": "filtered",
+  "timings": {
+   "download": 0.9,
+   "transcribe": 6.5,
+   "claude": 4.1
+  }
+ },
+ {
+  "id": "BadCorrectSproutPogChamp-IBRezR7bkgOyjBNX",
+  "streamer": "KaiCenat",
+  "login": "kaicenat",
+  "game": "Grand Theft Auto VI",
+  "twitch_title": "Kai wanna get freaky 🤯.",
+  "views": 533,
+  "created_at": "2026-11-18T15:55:48Z",
+  "duration": 44,
+  "source_url": "https://www.twitch.tv/kaicenat/clip/BadCorrectSproutPogChamp-IBRezR7bkgOyjBNX",
+  "added_at": "2026-11-20T07:26:11Z",
+  "stored": false,
+  "transcript": "You know, been so crazy. Yeah, it's case. I know, I've been so busy too, so much fun stuff. Plus, I got promoted. OK. I'm a director of product now. Super important. I manage like a million engineers, but I'm totally worked from home, which is so nice. OK, plunge it, plunge it. All right, let's agree. I'm happy for you. You don't. Uh -huh. Where's your plunger? Bathroom. The one across the hall. Uh -huh. OK. Good luck, good luck.",
+  "score": 2,
+  "reason": "Transcript is idle conversation about a promotion and a plunger with no visible gameplay payoff, and the Twitch title 'get freaky' is misleading out of context.",
+  "hook": "",
+  "archetype": "none",
+  "payoff": "No clear payoff; the plunger exchange ends with 'Good luck' and nothing lands.",
+  "title": "Kai wanna get freaky 🤯.",
+  "caption": "",
+  "hashtags": [],
+  "risks": [
+   "Transcript shows no GTA VI gameplay; cannot verify the game is on screen",
+   "Twitch title 'get freaky' implies content the transcript does not support, so the hook would mislead",
+   "Nothing happens for most of the 44s (idle chat, no escalation)",
+   "Possible off-game IRL or non-gaming segment, which fails the channel's gaming focus"
+  ],
+  "cut": [
+   0.0,
+   5.0
+  ],
+  "qc_rounds": 0,
+  "status": "filtered",
+  "timings": {
+   "download": 1.0,
+   "transcribe": 4.3,
+   "claude": 3.0
+  }
  }
 ]
