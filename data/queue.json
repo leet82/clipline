@@ -4854,5 +4854,159 @@
    "transcribe": 1.0,
    "claude": 4.1
   }
+ },
+ {
+  "id": "LaconicConsiderateCaterpillarKippa-gK9T9i4PZk82S-SA",
+  "streamer": "KaiCenat",
+  "login": "kaicenat",
+  "game": "Grand Theft Auto VI",
+  "twitch_title": "KAI GOT MOTION 🤪",
+  "views": 864,
+  "created_at": "2026-11-22T01:09:06Z",
+  "duration": 30,
+  "source_url": "https://www.twitch.tv/kaicenat/clip/LaconicConsiderateCaterpillarKippa-gK9T9i4PZk82S-SA",
+  "added_at": "2026-11-22T06:48:25Z",
+  "stored": false,
+  "transcript": "",
+  "score": 2,
+  "reason": "No speech in the transcript, so there is no identifiable payoff or stakes to build a hook around; the clip cannot be judged from what is said.",
+  "hook": "",
+  "archetype": "",
+  "payoff": "none identifiable from transcript",
+  "title": "KAI GOT MOTION 🤪",
+  "caption": "",
+  "hashtags": [],
+  "risks": [
+   "No transcript: moment cannot be verified from audio",
+   "Twitch title 'KAI GOT MOTION' suggests a visual moment, but the payoff is unconfirmed without video review",
+   "Possible GTA VI free-roam content, but story-content status cannot be checked"
+  ],
+  "cut": [
+   0.0,
+   5.0
+  ],
+  "qc_rounds": 0,
+  "status": "filtered",
+  "timings": {
+   "download": 1.6,
+   "transcribe": 1.6,
+   "claude": 3.2
+  }
+ },
+ {
+  "id": "AlluringAmusedManateeM4xHeh-SM3cLd-YkZMOyxxL",
+  "streamer": "KaiCenat",
+  "login": "kaicenat",
+  "game": "Grand Theft Auto VI",
+  "twitch_title": "Kai GTA VI Final Scene",
+  "views": 608,
+  "created_at": "2026-11-21T08:16:55Z",
+  "duration": 30,
+  "source_url": "https://www.twitch.tv/kaicenat/clip/AlluringAmusedManateeM4xHeh-SM3cLd-YkZMOyxxL",
+  "added_at": "2026-11-22T06:48:32Z",
+  "stored": false,
+  "transcript": "Come on out, please! Hey, oh!",
+  "score": 2,
+  "reason": "Clip title 'Final Scene' suggests a GTA VI story ending/cutscene, which is banned, and the transcript shows no clear payoff.",
+  "hook": "",
+  "archetype": "",
+  "payoff": "none identified in transcript",
+  "title": "Kai GTA VI Final Scene",
+  "caption": "",
+  "hashtags": [],
+  "risks": [
+   "STORY SPOILER: title 'Final Scene' suggests GTA VI ending/cutscene, check video",
+   "Transcript is a single line with no visible payoff; cannot verify moment from audio alone"
+  ],
+  "cut": [
+   0.0,
+   5.0
+  ],
+  "qc_rounds": 0,
+  "status": "filtered",
+  "timings": {
+   "download": 1.2,
+   "transcribe": 1.7,
+   "claude": 2.8
+  }
+ },
+ {
+  "id": "EnjoyableKawaiiHornetDAESuppy-4qCR_Hz5ttCFY0bs",
+  "streamer": "KaiCenat",
+  "login": "kaicenat",
+  "game": "Grand Theft Auto VI",
+  "twitch_title": "niko",
+  "views": 469,
+  "created_at": "2026-11-21T05:23:17Z",
+  "duration": 38,
+  "source_url": "https://www.twitch.tv/kaicenat/clip/EnjoyableKawaiiHornetDAESuppy-4qCR_Hz5ttCFY0bs",
+  "added_at": "2026-11-22T06:48:37Z",
+  "stored": false,
+  "transcript": "What the fuck? Feet off! Feet off! Feet off! Well, look who it is. It's been a long time. Wait. George, you'll cover your bones. Wait. Oh my gosh, Nico! Hey, it's good to see you. I wasn't expecting you to come all this way. Nico! There's only one reason I would come here. Nico! You really fucked up. Is it about a sheepman?",
+  "score": 3,
+  "reason": "Reads as a GTA story cutscene dialogue (mission-style confrontation with Nico), which the GTA VI rules forbid, and it needs more than 5s of context with no clear payoff.",
+  "hook": "Kai reunites with Nico, but why?",
+  "archetype": "named callout",
+  "payoff": "Nico's line 'You really fucked up. Is it about a sheepman?' is the only candidate punchline, but it depends on story context the viewer lacks.",
+  "title": "KaiCenat reunites with Nico in GTA VI",
+  "caption": "Kai and Nico reunion, but what did Nico do? Drop your guess below 👀 🎥 @kaicenat",
+  "hashtags": [
+   "#GTAVI",
+   "#KaiCenat"
+  ],
+  "risks": [
+   "STORY: appears to be a story cutscene or scripted dialogue, which is prohibited for GTA VI",
+   "CONTEXT: needs more than 5s of setup to make sense",
+   "UNSURE: judged from transcript only; if this is free-roam and not scripted, re-evaluate",
+   "MUSIC: none indicated in transcript"
+  ],
+  "cut": [
+   26.1,
+   36.4
+  ],
+  "qc_rounds": 0,
+  "status": "filtered",
+  "timings": {
+   "download": 1.0,
+   "transcribe": 4.0,
+   "claude": 4.2
+  }
+ },
+ {
+  "id": "ShinyCaringReindeerUncleNox-NjNzlfAye6L1M_uN",
+  "streamer": "KaiCenat",
+  "login": "kaicenat",
+  "game": "Grand Theft Auto VI",
+  "twitch_title": "bro locked in doom scrolling in game",
+  "views": 309,
+  "created_at": "2026-11-20T07:41:54Z",
+  "duration": 44.3,
+  "source_url": "https://www.twitch.tv/kaicenat/clip/ShinyCaringReindeerUncleNox-NjNzlfAye6L1M_uN",
+  "added_at": "2026-11-22T06:48:47Z",
+  "stored": false,
+  "transcript": "",
+  "score": 2,
+  "reason": "No speech in transcript and the Twitch title only describes doom scrolling, so there is no identifiable payoff or moment to cut.",
+  "hook": "",
+  "archetype": "",
+  "payoff": "none identifiable from transcript",
+  "title": "bro locked in doom scrolling in game",
+  "caption": "",
+  "hashtags": [],
+  "risks": [
+   "Judged from transcript and title only; video not visible, so on-screen action is unverified.",
+   "Possible idle or menu-browsing footage; no clear beat for a Short."
+  ],
+  "cut": [
+   0.0,
+   5.0
+  ],
+  "qc_rounds": 0,
+  "status": "filtered",
+  "timings": {
+   "download": 1.0,
+   "transcribe": 0.8,
+   "claude": 2.6
+  }
  }
 ]
