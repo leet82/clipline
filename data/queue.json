@@ -5008,5 +5008,124 @@
    "transcribe": 0.8,
    "claude": 2.6
   }
+ },
+ {
+  "id": "StylishFairChowderDoritosChip-SQ1GCE6-ymT6ih7l",
+  "streamer": "KaiCenat",
+  "login": "kaicenat",
+  "game": "Grand Theft Auto VI",
+  "twitch_title": "type shit",
+  "views": 1475,
+  "created_at": "2026-11-22T01:10:14Z",
+  "duration": 39.8,
+  "source_url": "https://www.twitch.tv/kaicenat/clip/StylishFairChowderDoritosChip-SQ1GCE6-ymT6ih7l",
+  "added_at": "2026-11-22T16:17:57Z",
+  "stored": false,
+  "transcript": "I gotta give more cash for the song I gotta give more cash for the song I gotta give more cash for the song I gotta give more cash for the song",
+  "score": 2,
+  "reason": "Transcript reads as repeated song lyrics (possible copyrighted music), with no visible payoff or story beat in the clip.",
+  "hook": "",
+  "archetype": "",
+  "payoff": "none identifiable from transcript",
+  "title": "type shit",
+  "caption": "",
+  "hashtags": [],
+  "risks": [
+   "MUSIC: transcript looks like sung lyrics, possibly copyrighted audio",
+   "No clear payoff or escalation; repetitive speech only",
+   "Unable to verify from video whether the audio is licensed music or streamer speech"
+  ],
+  "cut": [
+   0.0,
+   5.0
+  ],
+  "qc_rounds": 0,
+  "status": "filtered",
+  "timings": {
+   "download": 1.7,
+   "transcribe": 3.4,
+   "claude": 3.1
+  }
+ },
+ {
+  "id": "FancyCallousGuanacoRitzMitz-4iksB4A87tC2UNO-",
+  "streamer": "KaiCenat",
+  "login": "kaicenat",
+  "game": "Grand Theft Auto VI",
+  "twitch_title": "Chat explodes | Grand Theft Auto VI | clipped with twitch-tools.panda-core.net",
+  "views": 716,
+  "created_at": "2026-11-22T00:52:40Z",
+  "duration": 30,
+  "source_url": "https://www.twitch.tv/kaicenat/clip/FancyCallousGuanacoRitzMitz-4iksB4A87tC2UNO-",
+  "added_at": "2026-11-22T16:18:05Z",
+  "stored": false,
+  "transcript": "Hey Wow, I really love you Take a private beer Don't have to ask me twice Hey sexy! Where have you been my whole life? I'ma give you your mind with baby",
+  "score": 2,
+  "reason": "Transcript reads like song lyrics playing over the stream (copyrighted music risk), with no visible game moment, stakes, or payoff to judge.",
+  "hook": "",
+  "archetype": "",
+  "payoff": "none identifiable from transcript",
+  "title": "Chat explodes | Grand Theft Auto VI | clipped with twitch-tools.panda-core.net",
+  "caption": "",
+  "hashtags": [],
+  "risks": [
+   "MUSIC: transcript looks like song lyrics; possible copyrighted audio",
+   "Transcript is fragmentary and sexual in tone; unclear context without video",
+   "No clear payoff or game event identifiable from transcript alone"
+  ],
+  "cut": [
+   0.0,
+   5.0
+  ],
+  "qc_rounds": 0,
+  "status": "filtered",
+  "timings": {
+   "download": 0.9,
+   "transcribe": 1.5,
+   "claude": 2.6
+  }
+ },
+ {
+  "id": "DeliciousSolidDogDAESuppy-y7ZZPRoHSC_-ACmu",
+  "streamer": "KaiCenat",
+  "login": "kaicenat",
+  "game": "Grand Theft Auto VI",
+  "twitch_title": "FINDING EASTER EGGS IN THE STRIP CLUB😭😭😭😭",
+  "views": 476,
+  "created_at": "2026-11-22T01:04:33Z",
+  "duration": 30,
+  "source_url": "https://www.twitch.tv/kaicenat/clip/DeliciousSolidDogDAESuppy-y7ZZPRoHSC_-ACmu",
+  "added_at": "2026-11-22T16:18:10Z",
+  "stored": false,
+  "transcript": "What are you doing you told me that's you about to get on again? Oh get out",
+  "score": 3,
+  "reason": "Transcript is only two fragments with no clear payoff; the moment needs more than 5s of context and the strip club framing invites out-of-context reading, so it fails the cut.",
+  "hook": "KaiCenat finds GTA VI easter eggs",
+  "archetype": "verbatim quote",
+  "payoff": "Unclear: a dialogue line ('Oh get out') with no visible punchline in the transcript; may be a reaction but cannot be verified from text alone.",
+  "title": "KaiCenat finds GTA VI easter eggs",
+  "caption": "Did KaiCenat just find a GTA VI easter egg? Would you have caught that? 🎥 @kaicenat",
+  "hashtags": [
+   "#GTA6",
+   "#KaiCenat",
+   "#Twitch"
+  ],
+  "risks": [
+   "Transcript too sparse to confirm payoff; visual content unverified",
+   "Strip club setting may trigger platform adult-content review; check before posting",
+   "Sound-off test likely fails: the hook promises a find the transcript does not show",
+   "Possible story or spoiler content in GTA VI footage not visible in transcript"
+  ],
+  "cut": [
+   21.3,
+   30.0
+  ],
+  "qc_rounds": 0,
+  "status": "filtered",
+  "timings": {
+   "download": 0.9,
+   "transcribe": 1.2,
+   "claude": 4.0
+  }
  }
 ]
