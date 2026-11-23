@@ -5127,5 +5127,127 @@
    "transcribe": 1.2,
    "claude": 4.0
   }
+ },
+ {
+  "id": "CoySmallRabbitJonCarnage-z_EBFmSRzM4EW7uV",
+  "streamer": "KaiCenat",
+  "login": "kaicenat",
+  "game": "Grand Theft Auto VI",
+  "twitch_title": "Kai Cenat Shoots a Basketball For The First Time in GTA 6 😮‍💨🥳",
+  "views": 340,
+  "created_at": "2026-11-22T01:45:40Z",
+  "duration": 13,
+  "source_url": "https://www.twitch.tv/kaicenat/clip/CoySmallRabbitJonCarnage-z_EBFmSRzM4EW7uV",
+  "added_at": "2026-11-23T00:54:05Z",
+  "stored": false,
+  "transcript": "Aim, shoot!",
+  "score": 4,
+  "reason": "Transcript is only 'Aim,' and 'shoot!' with no visible outcome, so there is no confirmed payoff and the clip can't be judged as a complete beat.",
+  "hook": "Kai's first GTA 6 basketball shot",
+  "archetype": "mid-action",
+  "payoff": "Unconfirmed: the transcript does not show whether the basketball shot goes in or misses, or any reaction.",
+  "title": "Kai Cenat Shoots Basketball First Time in GTA 6",
+  "caption": "Kai's first GTA 6 basketball shot, mid-aim. Did it go in? Tell me your take 🎥 @kaicenat",
+  "hashtags": [
+   "#GTA6",
+   "#KaiCenat"
+  ],
+  "risks": [
+   "Transcript too sparse to confirm the payoff or outcome; review the video before any re-cut.",
+   "Unsure whether the shot is a sports minigame or free roam; check no story content is involved.",
+   "If the clip is re-cut, verify no licensed radio music is audible (MUSIC: mute/replace radio if so)."
+  ],
+  "cut": [
+   0.3,
+   13.0
+  ],
+  "qc_rounds": 0,
+  "status": "filtered",
+  "timings": {
+   "download": 1.2,
+   "transcribe": 2.3,
+   "claude": 5.4
+  }
+ },
+ {
+  "id": "DeadStrongShrewPeteZarollTie-D0zPJW0an0d9FDMm",
+  "streamer": "KaiCenat",
+  "login": "kaicenat",
+  "game": "Grand Theft Auto VI",
+  "twitch_title": "npc in GTA6 is crazy 💀",
+  "views": 379,
+  "created_at": "2026-11-21T21:49:48Z",
+  "duration": 42.7,
+  "source_url": "https://www.twitch.tv/kaicenat/clip/DeadStrongShrewPeteZarollTie-D0zPJW0an0d9FDMm",
+  "added_at": "2026-11-23T00:54:14Z",
+  "stored": false,
+  "transcript": "C'mon, seriously, put your face up against the glass in time. You can literally see them trained in for a dickless society. No dicks, like it'll be illegal, like a dick genocide. I can't say I can't believe that shit, but the sad thing is I can't. Serious, bro! Go kick it out! Dip in their tabloids and pure liquid tea! Ridiculous game! Ridiculous! Like an army of dick -tare and female. Right there, plain sight, not even hot. What? Can I sell something? How would these worth, brother mate? 20 dol",
+  "score": 3,
+  "reason": "Rambling, hard to follow, and no clear payoff; the NPC price-haggling beat at the end is a weak, context-dependent ending, and the crude sexual humour adds risk without a clear hook.",
+  "hook": "Kai Cenat's NPC rant in GTA 6",
+  "archetype": "reaction-first",
+  "payoff": "Unclear: the streamer asks an NPC whether he can sell something and gets a price question, with no visible outcome in the transcript.",
+  "title": "Kai Cenat rants at GTA 6 NPCs",
+  "caption": "Kai goes off on GTA 6 NPCs. Did the game earn this rant? Tell me your take. 🎥 @kaicenat",
+  "hashtags": [
+   "#GTA6",
+   "#KaiCenat"
+  ],
+  "risks": [
+   "No clear payoff in transcript; needs video review to confirm a moment exists",
+   "Crude sexual language throughout; likely not brand-safe for TikTok",
+   "Transcript is garbled and may be mis-transcribed, so the content is uncertain",
+   "MUSIC: check for audible licensed radio",
+   "VIOLENCE: none evident in transcript"
+  ],
+  "cut": [
+   0.0,
+   42.7
+  ],
+  "qc_rounds": 0,
+  "status": "filtered",
+  "timings": {
+   "download": 1.0,
+   "transcribe": 4.4,
+   "claude": 5.0
+  }
+ },
+ {
+  "id": "UnsightlyIgnorantEmuM4xHeh-78J-4at7nCh5_FRt",
+  "streamer": "KaiCenat",
+  "login": "kaicenat",
+  "game": "Grand Theft Auto VI",
+  "twitch_title": "Ayo 😭😭😭😭😭",
+  "views": 304,
+  "created_at": "2026-11-21T02:45:17Z",
+  "duration": 15,
+  "source_url": "https://www.twitch.tv/kaicenat/clip/UnsightlyIgnorantEmuM4xHeh-78J-4at7nCh5_FRt",
+  "added_at": "2026-11-23T00:54:24Z",
+  "stored": false,
+  "transcript": "",
+  "score": 2,
+  "reason": "No speech detected and no clear payoff; the title alone gives no context, so nothing can be verified or hooked.",
+  "hook": "",
+  "archetype": "",
+  "payoff": "none identifiable from transcript",
+  "title": "Ayo 😭😭😭😭😭",
+  "caption": "",
+  "hashtags": [],
+  "risks": [
+   "Transcript is empty, so the moment cannot be judged from audio; video unseen",
+   "Twitch title 'Ayo' with crying emojis suggests a reaction but the cause is unknown; may be story content (GTA 6 story beats are off-limits)",
+   "Possible licensed radio music if audible; unverified"
+  ],
+  "cut": [
+   0.0,
+   15.1
+  ],
+  "qc_rounds": 0,
+  "status": "filtered",
+  "timings": {
+   "download": 0.9,
+   "transcribe": 1.3,
+   "claude": 2.7
+  }
  }
 ]
