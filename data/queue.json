@@ -5288,5 +5288,90 @@
    "transcribe": 5.9,
    "claude": 5.3
   }
+ },
+ {
+  "id": "ApatheticSplendidGrouseDAESuppy-cUPr0DVodtjALdUz",
+  "streamer": "KaiCenat",
+  "login": "kaicenat",
+  "game": "Grand Theft Auto VI",
+  "twitch_title": "damn bruh",
+  "views": 336,
+  "created_at": "2026-11-23T01:09:13Z",
+  "duration": 44.1,
+  "source_url": "https://www.twitch.tv/kaicenat/clip/ApatheticSplendidGrouseDAESuppy-cUPr0DVodtjALdUz",
+  "added_at": "2026-11-24T02:55:23Z",
+  "stored": false,
+  "transcript": "Oh no!",
+  "score": 2,
+  "reason": "Transcript has only one spoken line ('Oh no!' at 2.8s) across 44s, so there is no identifiable payoff or context to judge the moment from.",
+  "hook": "KaiCenat's GTA VI 'Oh no!' moment",
+  "archetype": "reaction-first",
+  "payoff": "Unclear from transcript; only the 'Oh no!' reaction is audible, and the on-screen event is unknown.",
+  "title": "KaiCenat GTA VI: 'Oh no!' Moment",
+  "caption": "Kai's 'Oh no!' in GTA VI says it all. What went wrong for him? Tell me in the comments 🎥 @kaicenat",
+  "hashtags": [
+   "#KaiCenat",
+   "#GTAVI"
+  ],
+  "risks": [
+   "Transcript is nearly empty; cannot verify what happens on screen",
+   "Unknown whether the event involves graphic violence; if so, add 'VIOLENCE: check first 7s'",
+   "Unknown whether licensed radio music is audible; if so, add 'MUSIC: mute/replace radio'",
+   "Possible story spoiler if the moment is a mission or cutscene; verify before any reconsideration",
+   "Clip title 'damn bruh' gives no context; needs a manual watch before posting"
+  ],
+  "cut": [
+   0.0,
+   5.4
+  ],
+  "qc_rounds": 0,
+  "status": "filtered",
+  "timings": {
+   "download": 1.2,
+   "transcribe": 1.9,
+   "claude": 5.0
+  }
+ },
+ {
+  "id": "YawningNimbleCheetahKAPOW-8UVSu4w5z4RZj_OF",
+  "streamer": "KaiCenat",
+  "login": "kaicenat",
+  "game": "Grand Theft Auto VI",
+  "twitch_title": "kai cenat when you up",
+  "views": 372,
+  "created_at": "2026-11-22T18:35:17Z",
+  "duration": 22,
+  "source_url": "https://www.twitch.tv/kaicenat/clip/YawningNimbleCheetahKAPOW-8UVSu4w5z4RZj_OF",
+  "added_at": "2026-11-24T02:55:32Z",
+  "stored": false,
+  "transcript": "Pay your rate. This will be your rate. This will be your end. This will be your kids. This is a way to win. I'm gonna win like literally. Take my money.",
+  "score": 3,
+  "reason": "Transcript reads like song lyrics or a repeated audio bit with no clear on-screen action or payoff, so it risks copyrighted music and fails the context test.",
+  "hook": "Kai Cenat's rate lines, explained in-clip",
+  "archetype": "verbatim quote",
+  "payoff": "Unclear; the closing line 'Take my money' is the only candidate punchline and it lacks visible context.",
+  "title": "Kai Cenat GTA 6 clip",
+  "caption": "Kai Cenat says 'take my money' in GTA 6. Did he earn it? Tell us your take 👀 🎥 @kaicenat",
+  "hashtags": [
+   "#KaiCenat",
+   "#GTA6"
+  ],
+  "risks": [
+   "MUSIC: transcript looks like lyrics or a song; verify before any use",
+   "No visible game action can be confirmed from transcript alone; judged from speech only",
+   "Lacks clear stakes or payoff; needs more context than 5s",
+   "Title and caption are placeholders and should not be used if the clip is re-evaluated as keep"
+  ],
+  "cut": [
+   7.3,
+   19.4
+  ],
+  "qc_rounds": 0,
+  "status": "filtered",
+  "timings": {
+   "download": 0.9,
+   "transcribe": 10.7,
+   "claude": 4.3
+  }
  }
 ]
