@@ -5373,5 +5373,87 @@
    "transcribe": 10.7,
    "claude": 4.3
   }
+ },
+ {
+  "id": "BitterStylishLemurSSSsss-bthG6IGi-VdPRf1u",
+  "streamer": "KaiCenat",
+  "login": "kaicenat",
+  "game": "Grand Theft Auto VI",
+  "twitch_title": "ron and marlon?",
+  "views": 1569,
+  "created_at": "2026-11-24T22:27:30Z",
+  "duration": 40.4,
+  "source_url": "https://www.twitch.tv/kaicenat/clip/BitterStylishLemurSSSsss-bthG6IGi-VdPRf1u",
+  "added_at": "2026-11-25T00:44:59Z",
+  "stored": false,
+  "transcript": "Let me do it to be too. Oh my gosh, bro. Damn, bro. I can't believe oh, check my room. Yeah, miss my room Teddy, I miss my room. Oh My gosh, I'm so mad like oh my gosh, bro like yo Oh my god, I cannot believe you sold that bro. Phantom Ron Ron Who else But we need big wagers, bro. Tell we need to do big wagers, bro. I don't care, bro",
+  "score": 3,
+  "reason": "No clear payoff or self-contained beat; the transcript is fragmented, needs more than 5s of context, and centres on wagering talk that risks a gambling-stream flag.",
+  "hook": "",
+  "archetype": "",
+  "payoff": "No identifiable payoff; the lines trail off without a clear punchline, reveal, or fail.",
+  "title": "ron and marlon?",
+  "caption": "",
+  "hashtags": [],
+  "risks": [
+   "GAMBLING: wagering talk ('big wagers') may fall under casino/gambling rejection; verify whether it is in-game betting or real money.",
+   "CONTEXT: the 'Ron and Marlon' / 'sold that' / 'Phantom' references are unexplained and may hint at story content; cannot verify from transcript alone.",
+   "UNSURE: judged from transcript only, not the video."
+  ],
+  "cut": [
+   0.0,
+   5.0
+  ],
+  "qc_rounds": 0,
+  "status": "filtered",
+  "timings": {
+   "download": 1.2,
+   "transcribe": 4.6,
+   "claude": 3.9
+  }
+ },
+ {
+  "id": "MistyFastChickpeaBatChest-1l50Cnz_nbghKxmh",
+  "streamer": "KaiCenat",
+  "login": "kaicenat",
+  "game": "Grand Theft Auto VI",
+  "twitch_title": "lol",
+  "views": 1489,
+  "created_at": "2026-11-24T20:37:40Z",
+  "duration": 19.4,
+  "source_url": "https://www.twitch.tv/kaicenat/clip/MistyFastChickpeaBatChest-1l50Cnz_nbghKxmh",
+  "added_at": "2026-11-25T00:45:09Z",
+  "stored": false,
+  "transcript": "Oh my God",
+  "score": 2,
+  "reason": "Transcript has only a single 'Oh my God' at 4.5s with no visible stakes, context or payoff, so it cannot be judged as a complete moment.",
+  "hook": "Kai Cenat's GTA 6 jaw-drop moment",
+  "archetype": "reaction-first",
+  "payoff": "Unclear: only the line 'Oh my God' at 4.5s; the transcript shows no event that causes it.",
+  "title": "Kai Cenat GTA 6 reaction clip",
+  "caption": "Kai just said 'Oh my God' in GTA 6. What do you think set him off? 🎥 @kaicenat",
+  "hashtags": [
+   "#KaiCenat",
+   "#GTA6",
+   "#GTAVI"
+  ],
+  "risks": [
+   "Transcript has no content beyond one line, so the on-screen event is unknown; needs manual review of the video before any reuse.",
+   "If the reaction is to a story cutscene or mission outcome, reject under GTA 6 rules.",
+   "VIOLENCE: check first 7s if the reaction is to a kill or gore.",
+   "MUSIC: mute/replace radio if licensed music is audible.",
+   "Clip title 'lol' gives no context; do not rely on it."
+  ],
+  "cut": [
+   2.8,
+   9.4
+  ],
+  "qc_rounds": 0,
+  "status": "filtered",
+  "timings": {
+   "download": 0.9,
+   "transcribe": 1.5,
+   "claude": 4.2
+  }
  }
 ]
