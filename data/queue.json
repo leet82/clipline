@@ -5455,5 +5455,87 @@
    "transcribe": 1.5,
    "claude": 4.2
   }
+ },
+ {
+  "id": "TiredGoldenWerewolfStrawBeary-6jFm_HT9SxNzv_EV",
+  "streamer": "KaiCenat",
+  "login": "kaicenat",
+  "game": "Just Chatting",
+  "twitch_title": "speed x kay",
+  "views": 463,
+  "created_at": "2026-11-24T18:05:10Z",
+  "duration": 30.1,
+  "source_url": "https://www.twitch.tv/kaicenat/clip/TiredGoldenWerewolfStrawBeary-6jFm_HT9SxNzv_EV",
+  "added_at": "2026-11-25T14:23:06Z",
+  "stored": false,
+  "transcript": "I'm ready. I'm ready. I'm going. Oh stop. I don't have money. I don't have money to get to my house",
+  "score": 3,
+  "reason": "No clear payoff or self-contained beat; the transcript is short fragments ('I'm ready', 'I don't have money') with no visible stakes or punchline, so it needs more context than 5s.",
+  "hook": "",
+  "archetype": "none",
+  "payoff": "None identifiable from transcript; no clear reveal, fail, or punchline lands.",
+  "title": "speed x kay",
+  "caption": "",
+  "hashtags": [],
+  "risks": [
+   "Just Chatting content with no visible game action; judged from transcript only",
+   "Clip title 'speed x kay' is unclear and may refer to a collab or meme, so context is unknown",
+   "Transcript suggests a money/travel situation that would need full context to be understood",
+   "Unsure whether the video contains a visual payoff not captured in the transcript"
+  ],
+  "cut": [
+   11.5,
+   25.4
+  ],
+  "qc_rounds": 0,
+  "status": "filtered",
+  "timings": {
+   "download": 1.2,
+   "transcribe": 10.0,
+   "claude": 3.3
+  }
+ },
+ {
+  "id": "PowerfulLitigiousPancakeLitFam-Iqa8P1Bfy2yGQvNw",
+  "streamer": "KaiCenat",
+  "login": "kaicenat",
+  "game": "Grand Theft Auto VI",
+  "twitch_title": "shut up 😭",
+  "views": 370,
+  "created_at": "2026-11-24T18:19:33Z",
+  "duration": 31,
+  "source_url": "https://www.twitch.tv/kaicenat/clip/PowerfulLitigiousPancakeLitFam-Iqa8P1Bfy2yGQvNw",
+  "added_at": "2026-11-25T14:23:20Z",
+  "stored": false,
+  "transcript": "Can I get it back to my trucker? Oh my god speed get your car, bro. What are you doing, bro? He just broke because the cuffs won't get called on me again Yo speed up",
+  "score": 4,
+  "reason": "No clear payoff: the transcript is fragmented with a 14s silent gap, and the cuffs/police beat needs more context than the clip gives, so it fails the 5s context rule.",
+  "hook": "KaiCenat's cuffs chaos in GTA VI",
+  "archetype": "mid-action",
+  "payoff": "Unclear: a 'Yo' at 26.8s and 'speed up' at 30.3s, with no visible resolution in the transcript.",
+  "title": "KaiCenat GTA VI police cuffs chaos",
+  "caption": "Cops, cuffs and a trucker run gone wrong. Did Kai deserve that arrest? Tell me your take 🎥 @kaicenat",
+  "hashtags": [
+   "#KaiCenat",
+   "#GTA6"
+  ],
+  "risks": [
+   "Transcript is unclear and fragmented; verify visually whether a clear payoff exists before reconsidering.",
+   "Police/arrest content may involve chaos or violence; check visuals and confirm it is free-roam, not a story beat.",
+   "Possible licensed radio music in the background; check for audible music.",
+   "Clip title 'shut up' with 370 views suggests low engagement and possibly no standout moment.",
+   "Hook and title avoid story details, but the cuffs reference should be checked against the visuals."
+  ],
+  "cut": [
+   0.0,
+   31.0
+  ],
+  "qc_rounds": 0,
+  "status": "filtered",
+  "timings": {
+   "download": 0.7,
+   "transcribe": 1.2,
+   "claude": 5.0
+  }
  }
 ]
