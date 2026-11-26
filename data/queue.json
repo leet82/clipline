@@ -5537,5 +5537,86 @@
    "transcribe": 1.2,
    "claude": 5.0
   }
+ },
+ {
+  "id": "CulturedFlirtyPepperEleGiggle-UVrnRpC87ubTj_qS",
+  "streamer": "KaiCenat",
+  "login": "kaicenat",
+  "game": "Grand Theft Auto VI",
+  "twitch_title": "😂",
+  "views": 319,
+  "created_at": "2026-11-24T18:07:01Z",
+  "duration": 30,
+  "source_url": "https://www.twitch.tv/kaicenat/clip/CulturedFlirtyPepperEleGiggle-UVrnRpC87ubTj_qS",
+  "added_at": "2026-11-26T00:21:24Z",
+  "stored": false,
+  "transcript": "No, you're not. Listen, it's on you, bro. Yo, Sunny, you start the timer when I say go, OK? You start at 10, 4 hours. Oh, yeah, 10. Oh, yeah, 10. It's kept at 4 hours from chat. Whoever has the most money by 4 hours wins, or whoever hits a million under 4 hours wins. Yeah, yeah, yeah, yeah, exactly. Bro, 10, I still don't want them, bro. No, I'm not going to talk to them. I'm not going to talk to them.",
+  "score": 3,
+  "reason": "Setup-only money challenge rules with no visible payoff in the transcript, and the transcript cannot confirm the gameplay outcome, so it fails the nothing-happens and needs-context tests.",
+  "hook": "KaiCenat's $1M GTA 6 money race",
+  "archetype": "stakes-first",
+  "payoff": "None visible in transcript; the clip ends on the streamer arguing about rules and the challenge has not started.",
+  "title": "KaiCenat GTA 6 $1M money race rules",
+  "caption": "Kai sets a 4-hour GTA 6 money race. Who wins, the richest or the first to $1M? 🎥 @kaicenat",
+  "hashtags": [
+   "#KaiCenat",
+   "#GTA6"
+  ],
+  "risks": [
+   "No payoff in transcript: the race outcome is not in this clip, so a re-cut from a later segment would be needed.",
+   "Clip title is only an emoji, so context is unverified from metadata.",
+   "Visual check needed: the clip may show a clear moment the transcript does not capture.",
+   "Gambling check: a money race with a 'chat' timer could be read as betting; confirm it is not a wager with real money or a casino stream."
+  ],
+  "cut": [
+   0.0,
+   5.0
+  ],
+  "qc_rounds": 0,
+  "status": "filtered",
+  "timings": {
+   "download": 2.0,
+   "transcribe": 3.4,
+   "claude": 4.9
+  }
+ },
+ {
+  "id": "VainHilariousWallabyCclamChamp-iX7auG-nIhQ_TD4D",
+  "streamer": "KaiCenat",
+  "login": "kaicenat",
+  "game": "Grand Theft Auto VI",
+  "twitch_title": "kkkkkkk",
+  "views": 328,
+  "created_at": "2026-11-24T15:06:28Z",
+  "duration": 30,
+  "source_url": "https://www.twitch.tv/kaicenat/clip/VainHilariousWallabyCclamChamp-iX7auG-nIhQ_TD4D",
+  "added_at": "2026-11-26T00:21:34Z",
+  "stored": false,
+  "transcript": "And my husband, he was completely inappropriate. Oh, maybe we can thank him to get there. Great cut, cut, excellent work ladies. You can now disrobe.",
+  "score": 2,
+  "reason": "Transcript reads like scripted film or TV dialogue ('Great cut, cut, excellent work ladies'), not gameplay, and no clear payoff or GTA 6 moment is visible; possible reaction-to-media issue.",
+  "hook": "",
+  "archetype": "",
+  "payoff": "No clear payoff; the lines are a scripted-sounding director's cut and disrobe joke with no visible game action.",
+  "title": "kkkkkkk",
+  "caption": "",
+  "hashtags": [],
+  "risks": [
+   "Dialogue may come from a TV show, movie or video being watched, which breaks the reacting-to-media rule",
+   "No in-game action is evident from the transcript, so the clip may not be GTA 6 content",
+   "Sexual-adjacent wording ('disrobe', 'inappropriate') could be a further compliance concern",
+   "Judged from transcript only; the video was not seen"
+  ],
+  "cut": [
+   0.0,
+   5.0
+  ],
+  "qc_rounds": 0,
+  "status": "filtered",
+  "timings": {
+   "download": 0.8,
+   "transcribe": 1.4,
+   "claude": 3.9
+  }
  }
 ]
