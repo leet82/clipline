@@ -5618,5 +5618,86 @@
    "transcribe": 1.4,
    "claude": 3.9
   }
+ },
+ {
+  "id": "CredulousImpartialClipzRiPepperonis-FdhShoYHhgzvc1Kh",
+  "streamer": "KaiCenat",
+  "login": "kaicenat",
+  "game": "Just Chatting",
+  "twitch_title": "wwww kai",
+  "views": 2223,
+  "created_at": "2026-11-28T00:17:52Z",
+  "duration": 41.7,
+  "source_url": "https://www.twitch.tv/kaicenat/clip/CredulousImpartialClipzRiPepperonis-FdhShoYHhgzvc1Kh",
+  "added_at": "2026-11-28T07:48:56Z",
+  "stored": false,
+  "transcript": "We don't only got PS5's bro. We got PS5's Geese bro look at this bro. Yeah, look at this bro Look at this GTA 6 everywhere and I have PlayStation gift cards PlayStation gift cards as well like I'm gonna go I wrote real quick. Yo, hold on yo, you'll see me come downstairs So I can show him on the I wrote camera what we got going on bro. We have PlayStation's We have a whole bunch of GTA 6 copies and we also have Yeah, a whole bunch of gift cards bro, but this one is different. It's not the usual ",
+  "score": 4,
+  "reason": "Just Chatting setup for a giveaway-style reveal; the transcript ends before any payoff lands and the 'different' method is never shown, so it needs more context than a Short allows.",
+  "hook": "KaiCenat's GTA 6 giveaway twist",
+  "archetype": "stakes-first",
+  "payoff": "Unclear from transcript: the streamer says 'this one is different' and 'all right chat' but the actual reveal is not in the clip.",
+  "title": "KaiCenat GTA 6 giveaway twist explained",
+  "caption": "Would you take a GTA 6 copy this way? Tell me your guess 👇 🎥 @kaicenat",
+  "hashtags": [
+   "#KaiCenat",
+   "#GTA6",
+   "#Twitch"
+  ],
+  "risks": [
+   "No visible payoff in the transcript; the reveal happens after the clip ends",
+   "Possible giveaway or promo rules; check campaign terms before posting",
+   "Game listed as Just Chatting, so GTA 6 may be a prize reference rather than gameplay; verify on video",
+   "Licensed audio or Twitch-only context may be unclear without the video; judged from transcript only"
+  ],
+  "cut": [
+   18.1,
+   41.7
+  ],
+  "qc_rounds": 0,
+  "status": "filtered",
+  "timings": {
+   "download": 1.3,
+   "transcribe": 4.9,
+   "claude": 6.1
+  }
+ },
+ {
+  "id": "AdventurousRealChamoisBudBlast-gK9gKsVAlkG87w9F",
+  "streamer": "KaiCenat",
+  "login": "kaicenat",
+  "game": "Just Chatting",
+  "twitch_title": "4",
+  "views": 493,
+  "created_at": "2026-11-28T00:36:26Z",
+  "duration": 60,
+  "source_url": "https://www.twitch.tv/kaicenat/clip/AdventurousRealChamoisBudBlast-gK9gKsVAlkG87w9F",
+  "added_at": "2026-11-28T07:49:08Z",
+  "stored": false,
+  "transcript": "Oh my god, damn phone. Oh, who's ready for this giveaway? Tierra doesn't forget this, so look, Chad, I'm gonna tell you how it's gonna go, okay? I'm gonna just give you our brief on how it's gonna go. Go on what not, click the link, make the account, okay? Once you make the account, there's going to be a selected giveaway winner, poppy per minute, poppy refund, this is the file get did, poppy per minute. So somebody's going to win every single minute. Now on my screen, I'm trying to see if there",
+  "score": 2,
+  "reason": "No clear payoff: the clip is a giveaway/sign-up pitch with the streamer fumbling to find winners on a site, and the account-and-link funnel may be gambling-adjacent.",
+  "hook": "",
+  "archetype": "",
+  "payoff": "none",
+  "title": "4",
+  "caption": "",
+  "hashtags": [],
+  "risks": [
+   "GAMBLING/PROMO: giveaway with paid-style account sign-up; check whether the platform is gambling-adjacent before any use",
+   "NOTHING HAPPENS: streamer is setting up and searching for a winners page with no reveal",
+   "Transcript only, video not seen"
+  ],
+  "cut": [
+   0.0,
+   5.0
+  ],
+  "qc_rounds": 0,
+  "status": "filtered",
+  "timings": {
+   "download": 1.0,
+   "transcribe": 5.9,
+   "claude": 4.9
+  }
  }
 ]
